@@ -2,8 +2,11 @@
 
 Transforma um PDF em um flipbook HTML com efeito de virar página, em um único arquivo, pronto para hospedar no servidor e embutir no portal via iframe.
 
+Ferramenta: https://www.tce.mt.gov.br/uploads/flipbook/criador/index.html
+Guia de uso: https://www.tce.mt.gov.br/uploads/flipbook/criador/guia.html
+
 ## Como usar
-1. Abra `index.html` no navegador (Chrome recomendado).
+1. Abra a ferramenta no navegador (Chrome recomendado).
 2. Importe o PDF (ou arraste o arquivo para a tela).
 3. Escolha o tema e confira em Visualizar.
 4. Compartilhar: baixe o HTML, hospede no servidor e cole o código do iframe.

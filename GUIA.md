@@ -10,7 +10,7 @@ Transforma um PDF em um flipbook (publicação digital com efeito de virar pági
 ## Passo a passo
 
 ### 1. Abrir a ferramenta
-Abra o `index.html` no navegador (ou o endereço onde ele está hospedado).
+Acesse https://www.tce.mt.gov.br/uploads/flipbook/criador/index.html no navegador.
 
 ### 2. Importar o PDF
 Clique em **Selecionar PDF** ou arraste o arquivo para a tela. A conversão mostra uma barra de progresso; espere terminar.

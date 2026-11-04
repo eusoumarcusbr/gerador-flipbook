@@ -19,7 +19,7 @@ Fluxo de uso: abrir o Flipbook Creator > Importar PDF (ou arrastar o PDF para a 
 - `CONTEXTO.md`: este arquivo.
 
 ## Publicação
-Código versionado em github.com/eusoumarcusbr/gerador-flipbook (branch main). Arquivos enviados por FTP via Dreamweaver para `ftp.tce.mt.gov.br` (pasta remota: ver site configurado no Dreamweaver). Cada flipbook exportado é um arquivo HTML separado, hospedado no mesmo servidor.
+Ferramenta publicada em https://www.tce.mt.gov.br/uploads/flipbook/criador/index.html e guia em https://www.tce.mt.gov.br/uploads/flipbook/criador/guia.html (pasta `uploads/flipbook/criador/` do servidor). Código versionado em github.com/eusoumarcusbr/gerador-flipbook (branch main). Arquivos enviados por FTP via Dreamweaver para `ftp.tce.mt.gov.br` (pasta remota: ver site configurado no Dreamweaver). Cada flipbook exportado é um arquivo HTML separado, hospedado no mesmo servidor.
 
 Importante: mudanças no `index.html` só valem para flipbooks gerados depois. Flipbooks já publicados precisam ser reimportados e baixados de novo.
 

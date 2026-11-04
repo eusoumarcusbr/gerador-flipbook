@@ -2,230 +2,561 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Flipbook Creator — TCE-MT</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flipbook Creator | SECOM TCE-MT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
 <style>
-:root{--blue-900:#112d4e;--blue-700:#1b4f72;--blue-500:#2e86c1;--blue-300:#85c1e9;--blue-100:#d4e6f1;--blue-50:#eaf2f8;--green:#1abc9c;--gold:#d4a84b;--white:#fff;--gray-950:#1a1a2e;--gray-800:#34495e;--gray-600:#7f8c8d;--gray-300:#d5d8dc;--gray-100:#f2f3f4;--gray-50:#fafbfc;--font:Inter,system-ui,sans-serif;--font-display:'Fraunces',Georgia,serif;--font-mono:'JetBrains Mono',monospace;--r-sm:6px;--r-md:10px;--r-lg:16px;--r-xl:20px;--shadow-sm:0 1px 4px rgba(0,0,0,.06);--shadow-md:0 4px 12px rgba(0,0,0,.08);--shadow-lg:0 8px 30px rgba(0,0,0,.1);--primary:var(--blue-700);--accent:var(--blue-500);--bg:var(--gray-50);--surface:var(--white);--text:var(--gray-950);--text2:var(--gray-600);--border:var(--gray-300);--page-bg:var(--white)}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;font-size:14px;display:flex;flex-direction:column}
-#app{flex:1;display:flex;flex-direction:column}
+:root{--ink:#16202b;--ink2:#5b6775;--ink3:#8d97a5;--line:#dde3ea;--line2:#eef1f5;--canvas:#e9edf2;--surf:#fff;--surf2:#f5f7f9;--brand:#1b4f72;--brand2:#143d5a;--brand-soft:#e7eff6;--acc:#2e86c1;--danger:#b93a2f;--ok:#1e8e5a;--r:8px;--r2:12px;--font:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--serif:"Fraunces",Georgia,serif;--top:56px}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--font);font-size:14px;line-height:1.45;color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+[hidden]{display:none!important}
+svg.i{width:18px;height:18px;flex-shrink:0}
 
-/* ═══ TOPBAR ═══ */
-.topbar{background:var(--primary);color:#fff;padding:0 clamp(12px,3vw,24px);display:flex;align-items:center;justify-content:space-between;height:clamp(48px,8vh,56px);position:sticky;top:0;z-index:100;flex-shrink:0}
-.topbar-left{display:flex;align-items:center;gap:clamp(6px,2vw,14px);min-width:0}
-.topbar-left .title{font-size:clamp(13px,3vw,16px);font-weight:700;letter-spacing:-.4px;white-space:nowrap}
-.topbar-left .sep{width:1px;height:20px;background:rgba(255,255,255,.2)}
-.topbar-left .badge{font-size:clamp(9px,2vw,11px);font-weight:600;opacity:.7;letter-spacing:.5px;white-space:nowrap}
-.topbar-right{display:flex;gap:clamp(3px,1vw,6px);align-items:center;flex-shrink:0}
-.tb{padding:clamp(5px,1.2vw,8px) clamp(8px,2vw,14px);border-radius:var(--r-sm);border:none;background:rgba(255,255,255,.08);color:#fff;font-size:clamp(10px,2.5vw,12px);cursor:pointer;font-family:var(--font);font-weight:500;transition:all .2s;white-space:nowrap}
-.tb:hover{background:rgba(255,255,255,.16)}.tb.active{background:rgba(255,255,255,.22);font-weight:600}
-.tb-sep{width:1px;height:24px;background:rgba(255,255,255,.12);margin:0 2px}
-/* Hide labels on very small screens, show just abbreviated */
-@media(max-width:480px){.tb-sep{display:none}.topbar-left .sep,.topbar-left .badge{display:none}.tb{padding:6px 8px;font-size:10px}}
+/* Topo */
+.top{height:var(--top);background:var(--surf);border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 16px;gap:12px;flex-shrink:0}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .mark{width:30px;height:30px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;flex-shrink:0}
+.brand .name{font-weight:600;white-space:nowrap}
+.brand .org{color:var(--ink3);font-size:13px;white-space:nowrap;padding-left:10px;border-left:1px solid var(--line)}
+.seg{display:flex;background:var(--surf2);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{padding:5px 16px;border-radius:999px;font-weight:500;color:var(--ink2)}
+.seg button.on{background:var(--surf);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.1);font-weight:600}
+.seg button:disabled{opacity:.45;cursor:default}
+.actions{display:flex;justify-content:flex-end;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surf);font-weight:500;white-space:nowrap;color:var(--ink)}
+.btn:hover{background:var(--surf2)}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.pri:hover{background:var(--brand2)}
+.btn.lg{height:42px;padding:0 20px;font-size:15px}
+.btn:disabled{opacity:.6;cursor:default}
 
-/* ═══ EDITOR — Desktop 3-column ═══ */
-.editor{display:grid;grid-template-columns:230px 1fr 300px;flex:1;overflow:hidden}
-/* ═══ EDITOR — Mobile tab system ═══ */
-@media(max-width:820px){
-  .editor{grid-template-columns:1fr;grid-template-rows:auto 1fr}
-  .mob-tabs{display:flex !important}
-  .panel-l,.panel-r{display:none}
-  .panel-l.mob-active,.panel-r.mob-active,.center.mob-active{display:flex !important}
-  .center{min-height:0}
-  .panel-l.mob-active{max-height:none;height:100%;overflow:auto;border-right:none;border-bottom:1px solid var(--border)}
-  .panel-r.mob-active{max-height:none;height:100%;overflow:auto;border-left:none;border-top:1px solid var(--border)}
-  .frame{width:min(90vw,400px)}
-}
-.mob-tabs{display:none;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
-.mob-tab{flex:1;padding:10px 0;text-align:center;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;min-width:0;font-family:var(--font)}
-.mob-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-
-.panel-l{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-.panel-header{padding:clamp(10px,2vw,16px);border-bottom:1px solid var(--border)}
-.lbl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-family:var(--font-mono);margin-bottom:8px}
-.sel{width:100%;padding:9px 12px;border-radius:var(--r-md);border:1px solid var(--border);font-size:13px;font-family:var(--font);color:var(--primary);background:var(--surface);cursor:pointer}
-.sel:focus{border-color:var(--accent);outline:none}
+/* Grade do editor */
+.ed{flex:1;min-height:0;display:grid;grid-template-columns:252px minmax(0,1fr) 308px}
+.pane{background:var(--surf);min-height:0;display:flex;flex-direction:column}
+.left{border-right:1px solid var(--line)}
+.right{border-left:1px solid var(--line);overflow:auto;padding:20px;gap:24px}
+.ph{padding:16px 16px 12px;display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--line2)}
+.ph h2{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.cnt{font-size:12px;font-weight:600;color:var(--ink2);background:var(--surf2);border:1px solid var(--line);border-radius:999px;padding:0 8px;line-height:20px}
+.add{appearance:none;-webkit-appearance:none;width:100%;height:36px;padding:0 34px 0 12px;border:1px solid var(--line);border-radius:var(--r);background:var(--surf) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235b6775' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") no-repeat right 11px center;font-weight:500;cursor:pointer;color:var(--ink)}
+.add:hover{background-color:var(--surf2)}
 .plist{flex:1;overflow:auto;padding:8px}
-.pi{padding:8px 10px;border-radius:var(--r-md);margin-bottom:4px;border:1px solid transparent;cursor:pointer;display:flex;align-items:center;gap:8px;transition:all .15s}
-.pi:hover{background:var(--blue-50)}.pi.sel{background:var(--blue-100);border-color:var(--accent)}
-.pi .ic{font-size:15px;flex-shrink:0;width:28px;text-align:center}.pi .th{width:28px;height:36px;object-fit:cover;border-radius:4px;border:1px solid var(--border);flex-shrink:0}
-.pi .inf{flex:1;min-width:0}.pi .inf .nm{font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--primary)}.pi .inf .n{font-size:10px;color:var(--text2);font-family:var(--font-mono)}
-.pi .acts{display:none;gap:2px;flex-shrink:0}.pi.sel .acts{display:flex}
-.pi .acts button{width:22px;height:22px;border:none;background:transparent;cursor:pointer;font-size:10px;color:var(--text2);border-radius:var(--r-sm);transition:all .15s}
-.pi .acts button:hover{background:var(--blue-100)}.pi .acts button.dl{color:#e74c3c}.pi .acts button.dl:hover{background:#fce4e4}
-.center{display:flex;align-items:center;justify-content:center;padding:clamp(12px,3vw,28px);background:var(--bg);overflow:auto}
-.frame{width:min(400px,66vw);border-radius:var(--r-md);overflow:hidden;flex-shrink:0;box-shadow:var(--shadow-lg),0 0 0 1px rgba(0,0,0,.03)}
-.panel-r{background:var(--surface);border-left:1px solid var(--border);overflow:auto;padding:clamp(12px,2vw,18px);display:flex;flex-direction:column;gap:16px}
-.tg{display:flex;gap:8px;flex-wrap:wrap}.tgb{width:34px;height:34px;border-radius:var(--r-md);cursor:pointer;border:2.5px solid transparent;transition:all .2s}.tgb.act{transform:scale(1.12);box-shadow:var(--shadow-sm)}
-.tn{font-size:12px;color:var(--text2);margin-top:4px}.hr{height:1px;background:var(--border)}
-.fl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;display:block;font-family:var(--font-mono)}
-.fi{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-md);font-size:13px;font-family:var(--font);background:var(--surface);color:var(--text);outline:none;transition:all .2s}
-.fi:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,134,193,.1)}
-textarea.fi{min-height:100px;resize:vertical}
-.ub{width:100%;padding:11px;border:1.5px dashed var(--border);border-radius:var(--r-md);background:transparent;color:var(--text2);cursor:pointer;font-size:13px;font-family:var(--font);transition:all .2s}
-.ub:hover{border-color:var(--accent);color:var(--accent);background:var(--blue-50)}
-.tb2{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--blue-50);border-radius:var(--r-md);font-size:13px;color:var(--primary);font-weight:600;border:1px solid var(--blue-100)}
+.pi{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;cursor:pointer;border:1px solid transparent}
+.pi:hover{background:var(--surf2)}
+.pi.sel{background:var(--brand-soft);border-color:#c6d7e5}
+.pi .th{width:40px;aspect-ratio:var(--ar,3/4);border-radius:4px;overflow:hidden;background:var(--surf2);border:1px solid var(--line);flex-shrink:0;display:grid;place-items:center;color:var(--ink3);font-size:16px}
+.pi .th img{width:100%;height:100%;object-fit:cover;display:block}
+.pi .inf{min-width:0;flex:1}
+.pi .nm{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.pi .sub{font-size:12px;color:var(--ink3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pi .acts{display:none;gap:2px;flex-shrink:0}
+.pi.sel .acts,.pi:hover .acts,.pi:focus-within .acts{display:flex}
+.ib{width:28px;height:28px;border-radius:6px;display:grid;place-items:center;color:var(--ink2);flex-shrink:0}
+.ib:hover{background:rgba(22,32,43,.08);color:var(--ink)}
+.ib.del:hover{background:#fbe9e7;color:var(--danger)}
+.ib:disabled{opacity:.35;cursor:default;background:none}
+.ib svg{width:16px;height:16px}
 
-/* ═══ 3D FLIPBOOK ═══ */
-.preview{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(8px,2vw,16px);background:var(--bg);overflow:hidden}
-.scene{perspective:2400px;perspective-origin:50% 50%}
-.book{height:min(70vh,70dvh);position:relative;transform-style:preserve-3d;max-width:92vw}
-@media(max-width:600px){.book{height:auto;width:92vw}}
-@media(orientation:landscape) and (max-height:500px){.book{height:min(70vh,70dvh);width:auto;max-width:92vw}}
-.bshadow{position:absolute;bottom:-14px;left:5%;right:5%;height:22px;background:radial-gradient(ellipse,rgba(17,45,78,.16) 0%,transparent 70%);border-radius:50%;filter:blur(6px);z-index:0;transition:all .7s ease}
-.spine{position:absolute;top:0;left:-5px;width:10px;height:100%;background:linear-gradient(90deg,rgba(17,45,78,.18),rgba(17,45,78,.03),rgba(17,45,78,.12));border-radius:4px 0 0 4px;z-index:50;pointer-events:none}
-.leaf{position:absolute;top:0;left:0;width:100%;height:100%;transform-style:preserve-3d;transform-origin:left center;transition:transform .9s cubic-bezier(.4,.0,.2,1);z-index:1;pointer-events:none}
-.leaf.flipping{z-index:100}.leaf.flipped{transform:rotateY(-180deg);z-index:0}
-.lf{position:absolute;top:0;left:0;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;border-radius:0 var(--r-sm) var(--r-sm) 0}
-.lf-f{z-index:2;box-shadow:2px 0 8px rgba(0,0,0,.05),inset -3px 0 14px rgba(0,0,0,.02),inset 0 0 0 1px rgba(0,0,0,.03)}
-.lf-b{transform:rotateY(180deg);z-index:1;box-shadow:-2px 0 8px rgba(0,0,0,.05),inset 3px 0 14px rgba(0,0,0,.02),inset 0 0 0 1px rgba(0,0,0,.03)}
-.lf-b::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.04),transparent 18%);pointer-events:none}
-.lf-f::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(to left,rgba(17,45,78,.04),transparent);pointer-events:none;opacity:0;transition:opacity .4s}
-.leaf.flipping .lf-f::after{opacity:1}
-.bclick{position:absolute;top:0;width:45%;height:100%;z-index:200;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.bclick.l{left:0;cursor:w-resize}.bclick.r{right:0;cursor:e-resize}
-.nav{display:flex;align-items:center;gap:clamp(10px,3vw,16px);margin-top:clamp(8px,2vw,16px);flex-shrink:0}
-.navb{width:clamp(38px,10vw,46px);height:clamp(38px,10vw,46px);border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--primary);cursor:pointer;font-size:clamp(18px,5vw,22px);display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:var(--shadow-sm);-webkit-tap-highlight-color:transparent}
-.navb:hover:not(:disabled){background:var(--blue-50);border-color:var(--accent);transform:scale(1.06)}
-.navb:disabled{color:var(--gray-300);cursor:default;box-shadow:none}
-.dots{display:flex;gap:clamp(4px,1vw,6px);align-items:center;flex-wrap:wrap;justify-content:center;max-width:200px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--gray-300);cursor:pointer;transition:all .3s}.dot.act{width:20px;border-radius:4px;background:var(--accent)}
-.nctr{font-size:clamp(12px,3vw,14px);font-family:var(--font-mono);font-weight:500;color:var(--primary)}
-.nhint{font-size:clamp(10px,2.5vw,12px);color:var(--gray-300);font-family:var(--font-mono);margin-top:clamp(4px,1vw,10px);flex-shrink:0}
-.pdfbtn-prev{margin-top:clamp(6px,1.5vw,12px);padding:clamp(7px,1.5vw,10px) clamp(16px,4vw,24px);border-radius:var(--r-md);border:1px solid var(--accent);background:var(--blue-50);color:var(--accent);font-size:clamp(11px,2.5vw,13px);font-weight:600;cursor:pointer;font-family:var(--font);transition:all .2s;flex-shrink:0;-webkit-tap-highlight-color:transparent}
-.pdfbtn-prev:hover{background:var(--accent);color:#fff}
+/* Centro */
+.stage{min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;position:relative}
+.stage.drag::after{content:"Solte o PDF para importar";position:absolute;inset:12px;border:2px dashed var(--acc);border-radius:16px;background:rgba(46,134,193,.08);display:grid;place-items:center;font-weight:600;color:var(--brand);font-size:16px;pointer-events:none}
+.fitbox{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center}
+.page{background:#fff;box-shadow:0 14px 36px -10px rgba(16,32,43,.35),0 1px 3px rgba(0,0,0,.1);border-radius:2px;overflow:hidden;position:relative;flex-shrink:0}
+.pager{display:flex;align-items:center;gap:8px;color:var(--ink2);font-size:13px;flex-shrink:0}
+.pager .ib{width:32px;height:32px;background:var(--surf);border:1px solid var(--line)}
+.empty{max-width:400px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:40px 28px;border:2px dashed var(--line);border-radius:16px;background:rgba(255,255,255,.65)}
+.empty .ico{width:52px;height:52px;border-radius:14px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;margin-bottom:4px}
+.empty .ico svg{width:26px;height:26px}
+.empty h3{font-size:17px;font-weight:600}
+.empty p{color:var(--ink2);max-width:32ch}
+.empty .hint{font-size:12px;color:var(--ink3)}
+.empty .btn{margin-top:6px}
 
-/* ═══ MODALS ═══ */
-.mover{position:fixed;inset:0;background:rgba(17,45,78,.35);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:clamp(10px,3vw,20px)}
-.modal{background:var(--surface);border-radius:var(--r-xl);padding:clamp(20px,4vw,32px);max-width:520px;width:100%;box-shadow:0 16px 50px rgba(0,0,0,.12);position:relative;max-height:90vh;overflow:auto}
-.mx{position:absolute;top:14px;right:16px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--gray-600);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.mx:hover{background:var(--gray-100);color:var(--text)}
-.mi{font-size:24px;margin-bottom:8px;color:var(--accent)}.mt{font-size:clamp(16px,4vw,20px);font-weight:700;color:var(--primary);margin:0 0 4px}.ms{font-size:13px;color:var(--text2);margin:0}
-.mbtns{display:flex;gap:8px;justify-content:center;margin:20px 0;flex-wrap:wrap}
-.mbtn{padding:10px 20px;border-radius:var(--r-md);font-size:13px;font-family:var(--font);cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text2);font-weight:500;transition:all .2s}
-.mbtn.act{border-color:var(--accent);background:var(--blue-50);color:var(--primary);font-weight:600}
-.pdfub{width:100%;padding:clamp(14px,3vw,20px);border-radius:var(--r-lg);border:2px dashed var(--border);background:var(--gray-50);cursor:pointer;font-size:14px;font-family:var(--font);color:var(--primary);font-weight:500;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s}
-.pdfub:hover{border-color:var(--accent);background:var(--blue-50)}
-.pbar{width:100%;height:5px;border-radius:3px;background:var(--gray-100);overflow:hidden;margin-bottom:14px}
-.pfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .3s}
-.dlb{width:100%;padding:14px;border-radius:var(--r-md);border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 2px 8px rgba(46,134,193,.25);transition:all .2s}
-.dlb:hover{background:var(--primary)}
-.cblk{background:var(--gray-950);color:var(--blue-100);padding:clamp(12px,3vw,18px);border-radius:var(--r-md);font-size:11px;font-family:var(--font-mono);overflow:auto;line-height:1.7;white-space:pre-wrap;word-break:break-all;position:relative}
-.cpb{position:absolute;top:10px;right:10px;padding:5px 14px;border-radius:var(--r-sm);border:none;background:rgba(255,255,255,.1);color:var(--blue-100);font-size:11px;cursor:pointer;font-family:var(--font-mono);transition:all .2s}
-.cpb:hover{background:rgba(255,255,255,.18)}.cpb.ok{background:var(--green);color:#fff}
-.instr{background:var(--blue-50);border:1px solid var(--blue-100);border-radius:var(--r-md);padding:clamp(12px,3vw,18px);margin-top:18px}
-.instr ol{font-size:13px;color:var(--text2);line-height:2;padding-left:20px}
-@keyframes pls{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1.2)}}
-.ldots{display:flex;justify-content:center;gap:5px;margin-top:14px}.ldot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
-.app-footer{background:var(--primary);color:rgba(255,255,255,.55);padding:clamp(6px,1.5vw,10px) clamp(12px,3vw,24px);font-size:clamp(9px,2vw,11px);text-align:center;font-family:var(--font);letter-spacing:.2px;line-height:1.4;flex-shrink:0}
+/* Inspetor */
+.right section{display:flex;flex-direction:column;gap:10px}
+.right h3{font-size:13px;font-weight:600;color:var(--ink)}
+.themes{display:flex;gap:10px;flex-wrap:wrap}
+.sw{width:30px;height:30px;border-radius:50%;border:0;cursor:pointer;padding:0}
+.sw.on{box-shadow:0 0 0 2px var(--surf),0 0 0 4px var(--brand)}
+.tn{font-size:12px;color:var(--ink2)}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:12px;font-weight:500;color:var(--ink2)}
+.in{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:var(--r);background:var(--surf);outline:none}
+.in:focus{border-color:var(--acc);box-shadow:0 0 0 3px rgba(46,134,193,.15)}
+textarea.in{min-height:110px;resize:vertical;line-height:1.5}
+.ub{width:100%;height:38px;border:1px dashed var(--line);border-radius:var(--r);color:var(--ink2);font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px}
+.ub:hover{border-color:var(--acc);color:var(--brand);background:var(--brand-soft)}
+.note{font-size:12px;color:var(--ink3);line-height:1.5}
+.logo-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r)}
+.logo-row img{height:28px;max-width:150px;object-fit:contain}
+.lnk{color:var(--danger);font-size:12px;font-weight:500;padding:4px 6px;border-radius:6px}
+.lnk:hover{background:#fbe9e7}
+.chip{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--r);background:var(--surf2);border:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.imgprev{width:100%;border-radius:6px;border:1px solid var(--line);display:block}
+
+/* Prévia */
+.pvwrap{flex:1;min-height:0;position:relative;background:var(--canvas)}
+.pvwrap iframe{width:100%;height:100%;border:0;display:block}
+.pvload{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink2);background:var(--canvas)}
+
+/* Modais */
+.ov{position:fixed;inset:0;background:rgba(22,32,43,.55);display:grid;place-items:center;padding:16px;z-index:100}
+.dlg{background:var(--surf);border-radius:16px;width:min(540px,100%);box-shadow:0 24px 64px rgba(0,0,0,.3);max-height:92vh;max-height:92dvh;overflow:auto}
+.dh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:22px 24px 0}
+.dh h2{font-size:18px;font-weight:600}
+.dh p{color:var(--ink2);margin-top:2px}
+.dh .ib{width:32px;height:32px;margin:-4px -6px 0 0}
+.db{padding:20px 24px 24px;display:flex;flex-direction:column;gap:18px}
+.modes{display:flex;gap:8px}
+.modes button{flex:1;height:40px;border:1px solid var(--line);border-radius:var(--r);font-weight:500;color:var(--ink2)}
+.modes button.on{border-color:var(--brand);color:var(--brand);background:var(--brand-soft);font-weight:600}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:28px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink2);cursor:pointer;width:100%}
+.drop:hover,.drop.drag{border-color:var(--acc);background:var(--brand-soft);color:var(--brand)}
+.drop strong{color:var(--ink);font-weight:600}
+.drop .sm{font-size:12px;color:var(--ink3)}
+.filerow{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r);background:var(--surf2)}
+.filerow .fn{flex:1;min-width:0;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.filerow .fs{font-size:12px;color:var(--ink3)}
+.prog{height:6px;border-radius:3px;background:var(--line2);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--acc);border-radius:3px;transition:width .2s}
+.step{display:flex;flex-direction:column;gap:8px}
+.step h4{font-size:13px;font-weight:600}
+.code{background:#16202b;color:#d6e2ee;border-radius:10px;padding:14px 88px 14px 16px;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-all;position:relative}
+.code .cp{position:absolute;top:8px;right:8px;padding:5px 10px;border-radius:6px;background:rgba(255,255,255,.14);color:#fff;font-family:var(--font);font-size:12px;font-weight:500}
+.code .cp:hover{background:rgba(255,255,255,.24)}
+.code .cp.ok{background:var(--ok)}
+.steps{padding-left:20px;color:var(--ink2);display:flex;flex-direction:column;gap:4px}
+.warn{background:#fff7e6;border:1px solid #f1d898;color:#6f5210;border-radius:var(--r);padding:10px 12px;font-size:13px}
+
+/* Celular e tablet */
+.mtabs{display:none}
+@media(max-width:900px){
+ .ed{grid-template-columns:1fr}
+ .top{grid-template-columns:auto 1fr auto;padding:0 12px}
+ .seg{justify-self:center}
+ .brand .org{display:none}
+ .btn .lbl{display:none}
+ .btn{padding:0 10px}
+ .mtabs{display:flex;background:var(--surf);border-bottom:1px solid var(--line);flex-shrink:0}
+ .mtabs button{flex:1;padding:10px 0;font-weight:500;color:var(--ink2);border-bottom:2px solid transparent}
+ .mtabs button.on{color:var(--brand);border-color:var(--brand);font-weight:600}
+ .pane,.stage{display:none}
+ .pane.on,.stage.on{display:flex}
+ .left{border-right:0}
+ .right{border-left:0}
+ .stage{padding:16px}
+}
+@media(max-width:480px){
+ .seg button{padding:5px 11px;font-size:13px}
+ .brand .name{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div id="app"></div>
+
+<!-- Template do flipbook exportado. {{CHAVES}} são substituídas em buildViewer(). -->
+<script type="text/template" id="vtpl"><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:{{BG}};--surf:{{SURF}};--ink:{{INK}};--ink2:{{INK2}};--line:{{LINE}};--hover:{{HOVER}};--acc:{{ACC}};--accink:#fff;--pagebg:{{PAGEBG}};--flip:.7s}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:14px;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;height:100vh;height:100dvh;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible,input:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+[hidden]{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.stage{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:20px 72px;touch-action:pan-y;overflow:hidden}
+.scene{perspective:2600px;height:100%;width:100%;display:flex;align-items:center;justify-content:center}
+.book{position:relative;transform-style:preserve-3d;flex-shrink:0}
+.book::before{content:"";position:absolute;inset:0;border-radius:3px;box-shadow:0 24px 60px -18px rgba(0,0,0,.45),0 2px 8px rgba(0,0,0,.14);transition:box-shadow .5s}
+.book.moving::before{box-shadow:0 32px 70px -16px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.14)}
+.spine{position:absolute;top:0;bottom:0;left:0;width:14px;background:linear-gradient(90deg,rgba(0,0,0,.16),rgba(0,0,0,0));z-index:60;pointer-events:none;border-radius:3px 0 0 3px}
+.leaf{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:left center;visibility:visible;transition:transform var(--flip) cubic-bezier(.4,0,.2,1),visibility 0s linear 0s;pointer-events:none}
+.leaf.done{transform:rotateY(-180deg);visibility:hidden;transition:transform var(--flip) cubic-bezier(.4,0,.2,1),visibility 0s linear var(--flip)}
+.book.noanim .leaf{transition:none!important}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:var(--pagebg);border-radius:0 3px 3px 0}
+.front{z-index:2}
+.front::after{content:"";position:absolute;inset:0;background:linear-gradient(to left,rgba(0,0,0,.18),rgba(0,0,0,0) 45%);opacity:0;transition:opacity .35s;pointer-events:none}
+.leaf.turning .front::after{opacity:1}
+.back{transform:rotateY(180deg);z-index:1;border-radius:3px 0 0 3px;background:linear-gradient(to right,rgba(0,0,0,.08),rgba(0,0,0,0) 20%),var(--pagebg)}
+.face img{width:100%;height:100%;object-fit:contain;display:block;background:var(--pagebg)}
+.ph{height:100%;display:grid;place-items:center;color:var(--ink2);font-size:15px;padding:24px;text-align:center}
+.zone{position:absolute;top:0;bottom:0;width:50%;z-index:200;cursor:pointer}
+.zone.l{left:0}.zone.r{right:0}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:var(--surf);border:1px solid var(--line);color:var(--ink);display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.12);z-index:210;transition:background .15s,opacity .15s}
+.arrow:hover{background:var(--hover)}
+.arrow:disabled{opacity:.25;cursor:default}
+.arrow.l{left:14px}.arrow.r{right:14px}
+.arrow svg{width:22px;height:22px}
+
+.thumbs{position:absolute;left:0;right:0;bottom:0;background:var(--surf);border-top:1px solid var(--line);padding:10px 12px;display:flex;gap:8px;justify-content:safe center;overflow-x:auto;transform:translateY(100%);visibility:hidden;pointer-events:none;transition:transform .25s ease,visibility 0s linear .25s;z-index:300;box-shadow:0 -8px 24px rgba(0,0,0,.08);scrollbar-width:thin}
+.thumbs.open{transform:none;visibility:visible;pointer-events:auto;transition:transform .25s ease,visibility 0s linear 0s}
+.th{position:relative;flex-shrink:0;height:92px;aspect-ratio:var(--ar,3/4);border-radius:4px;overflow:hidden;background:var(--pagebg);border:1px solid var(--line);padding:0;display:block}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.th span{position:absolute;left:4px;bottom:4px;font-size:11px;font-weight:600;background:rgba(0,0,0,.55);color:#fff;border-radius:4px;padding:1px 5px;line-height:1.4}
+.th.on{box-shadow:0 0 0 2px var(--acc);border-color:var(--acc)}
+.th .ph{font-size:11px;padding:4px}
+
+.chrome{background:var(--surf);border-top:1px solid var(--line);flex-shrink:0}
+.scrub{appearance:none;-webkit-appearance:none;width:100%;height:16px;padding:0 10px;background:transparent;margin:0;display:block;cursor:pointer;--p:0%}
+.scrub::-webkit-slider-runnable-track{height:3px;background:linear-gradient(to right,var(--acc) var(--p),var(--line) var(--p));border-radius:2px}
+.scrub::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--acc);margin-top:-5.5px;border:2px solid var(--surf);box-shadow:0 0 0 1px var(--line)}
+.scrub::-moz-range-track{height:3px;background:var(--line);border-radius:2px}
+.scrub::-moz-range-progress{height:3px;background:var(--acc);border-radius:2px}
+.scrub::-moz-range-thumb{width:10px;height:10px;border-radius:50%;background:var(--acc);border:2px solid var(--surf)}
+.bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;padding:2px 10px 6px}
+.grp{display:flex;align-items:center;gap:2px;min-width:0}
+.grp.r{justify-content:flex-end}
+.ib{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:var(--ink);flex-shrink:0}
+.ib:hover{background:var(--hover)}
+.ib[aria-pressed=true]{background:var(--acc);color:var(--accink)}
+.ib:disabled{opacity:.3;cursor:default;background:none}
+.ib svg{width:20px;height:20px}
+.title{font-size:13px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 8px}
+.pg{display:flex;align-items:center;gap:6px;color:var(--ink2);padding:0 4px}
+.pg input{width:3.4ch;height:32px;text-align:center;font:inherit;font-weight:600;color:var(--ink);background:var(--hover);border:1px solid var(--line);border-radius:8px;-moz-appearance:textfield;appearance:textfield}
+.pg input::-webkit-outer-spin-button,.pg input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.pg b{font-weight:600;color:var(--ink)}
+.credit{font-size:11px;color:var(--ink2);text-align:center;padding:0 12px 7px;opacity:.85}
+
+.zoom{position:fixed;inset:0;background:rgba(10,14,20,.97);z-index:500;display:flex;flex-direction:column;color:#fff}
+.zbar{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;gap:8px;flex-shrink:0}
+.zbar .ib{color:#fff}
+.zbar .ib:hover{background:rgba(255,255,255,.12)}
+.zbar .lbl{font-size:13px;opacity:.8;padding-left:6px}
+.zbar .pct{font-size:13px;min-width:5ch;text-align:center;opacity:.9}
+.zbody{flex:1;min-height:0;overflow:auto;text-align:center;-webkit-overflow-scrolling:touch}
+.zbody img{display:inline-block;vertical-align:top;background:var(--pagebg);box-shadow:0 8px 40px rgba(0,0,0,.5)}
+
+@media(max-width:720px){
+ .stage{padding:12px 12px}
+ .arrow{display:none}
+ .title{display:none}
+ .th{height:72px}
+ .ib{width:38px;height:38px}
+}
+@media(max-height:420px){.credit{display:none}}
+@media(prefers-reduced-motion:reduce){:root{--flip:0s}.thumbs,.book::before,.front::after{transition:none}}
+</style>
+</head>
+<body>
+<div class="stage" id="stage">
+  <div class="scene" id="scene">
+    <div class="book" id="book">
+      <div id="leaves"></div>
+      <div class="spine"></div>
+      <div class="zone l" id="zoneL" aria-hidden="true"></div>
+      <div class="zone r" id="zoneR" aria-hidden="true"></div>
+    </div>
+  </div>
+  <button class="arrow l" id="arrowL" aria-label="Página anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="arrow r" id="arrowR" aria-label="Próxima página"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+  <div class="thumbs" id="thumbs" role="list" aria-label="Miniaturas das páginas"></div>
+</div>
+<div class="chrome">
+  <input class="scrub" id="scrub" type="range" min="1" max="1" value="1" step="1" aria-label="Ir para a página">
+  <div class="bar" role="toolbar" aria-label="Controles do flipbook">
+    <div class="grp">
+      <button class="ib" id="btnThumbs" aria-label="Miniaturas das páginas" aria-pressed="false" title="Miniaturas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+      <span class="title" id="title">{{DOCNAME}}</span>
+    </div>
+    <div class="grp">
+      <button class="ib" id="btnPrev" aria-label="Página anterior" title="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+      <label class="pg"><input id="pgIn" type="number" min="1" max="1" value="1" inputmode="numeric" aria-label="Página atual"><span>de <b id="pgTot">1</b></span></label>
+      <button class="ib" id="btnNext" aria-label="Próxima página" title="Próxima"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+    <div class="grp r">
+      <button class="ib" id="btnZoom" aria-label="Ampliar página" title="Ampliar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3M11 8v6M8 11h6"/></svg></button>
+      <button class="ib" id="btnFs" aria-label="Tela cheia" title="Tela cheia"><svg id="icoFs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg><svg id="icoFsX" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><path d="M8 3v3a2 2 0 0 1-2 2H3M21 8h-3a2 2 0 0 1-2-2V3M3 16h3a2 2 0 0 1 2 2v3M16 21v-3a2 2 0 0 1 2-2h3"/></svg></button>
+      <button class="ib" id="btnPdf" aria-label="Baixar o PDF original" title="Baixar PDF" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></button>
+    </div>
+  </div>
+  <p class="credit">Desenvolvido pela SECOM do TCE-MT.</p>
+</div>
+<div class="zoom" id="zoom" role="dialog" aria-modal="true" aria-label="Página ampliada" hidden>
+  <div class="zbar">
+    <span class="lbl" id="zlbl"></span>
+    <div class="grp">
+      <button class="ib" id="zOut" aria-label="Reduzir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+      <span class="pct" id="zpct">150%</span>
+      <button class="ib" id="zIn" aria-label="Ampliar mais"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="ib" id="zClose" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+  </div>
+  <div class="zbody" id="zbody"><img id="zimg" alt=""></div>
+</div>
+<div class="sr" aria-live="polite" id="live"></div>
+<script>
+(function(){
+var IM={{IMAGES}},TB={{THUMBS}},PDF={{PDF}},PDFN={{PDFNAME}},AR={{AR}};
+var tt=IM.length,c=0,busy=false;
+function $(id){return document.getElementById(id)}
+var book=$('book'),lv=$('leaves'),scene=$('scene'),stage=$('stage'),pgIn=$('pgIn'),scrub=$('scrub'),thumbs=$('thumbs'),live=$('live');
+var btnPrev=$('btnPrev'),btnNext=$('btnNext'),arrowL=$('arrowL'),arrowR=$('arrowR'),btnThumbs=$('btnThumbs'),btnZoom=$('btnZoom'),btnFs=$('btnFs'),btnPdf=$('btnPdf');
+document.documentElement.style.setProperty('--ar',AR);
+function dur(){var d=getComputedStyle(document.documentElement).getPropertyValue('--flip').trim();if(!d)return 700;return d.indexOf('ms')>-1?parseFloat(d):parseFloat(d)*1000}
+function build(){
+  var h='',t='',i;
+  for(i=0;i<tt;i++){
+    h+='<div class="leaf" id="l'+i+'" style="z-index:'+(tt-i)+'"><div class="face front">'+(IM[i]?'<img src="'+IM[i]+'" alt="Página '+(i+1)+'" decoding="async">':'<div class="ph">Página '+(i+1)+'</div>')+'</div><div class="face back"></div></div>';
+    t+='<button class="th" role="listitem" data-i="'+i+'" aria-label="Ir para a página '+(i+1)+'">'+(TB[i]?'<img src="'+TB[i]+'" alt="" loading="lazy" decoding="async">':'<div class="ph">'+(i+1)+'</div>')+'<span>'+(i+1)+'</span></button>';
+  }
+  if(!tt)h='<div class="ph">Nenhuma página.</div>';
+  lv.innerHTML=h;thumbs.innerHTML=t;
+  scrub.max=Math.max(1,tt);pgIn.max=Math.max(1,tt);$('pgTot').textContent=tt;
+  if(PDF)btnPdf.hidden=false;
+}
+function fit(){var W=scene.clientWidth,H=scene.clientHeight;if(!W||!H)return;var w=Math.min(W,H*AR),h=w/AR;book.style.width=w+'px';book.style.height=h+'px'}
+function setLeaf(i,flipped){var l=$('l'+i);if(!l)return;if(flipped){l.classList.add('done');l.style.zIndex=i}else{l.classList.remove('done');l.style.zIndex=tt-i}}
+function update(){
+  pgIn.value=c+1;scrub.value=c+1;scrub.style.setProperty('--p',(tt>1?(c/(tt-1))*100:0)+'%');
+  var first=c<=0,last=c>=tt-1;
+  btnPrev.disabled=first;arrowL.disabled=first;btnNext.disabled=last;arrowR.disabled=last;
+  var ths=thumbs.children;for(var i=0;i<ths.length;i++){ths[i].classList.toggle('on',i===c)}
+  if(thumbs.classList.contains('open')&&ths[c])ths[c].scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  live.textContent='Página '+(c+1)+' de '+tt;
+  if(history.replaceState){try{history.replaceState(null,'','#p='+(c+1))}catch(e){}}
+}
+function go(n,anim){
+  n=Math.max(0,Math.min(tt-1,n));if(n===c||busy||tt===0)return;
+  if(!anim||Math.abs(n-c)>1||dur()===0){
+    book.classList.add('noanim');for(var i=0;i<tt;i++)setLeaf(i,i<n);c=n;void book.offsetWidth;
+    requestAnimationFrame(function(){book.classList.remove('noanim')});update();return;
+  }
+  busy=true;var i=n>c?c:n,l=$('l'+i),fwd=n>c;
+  l.classList.add('turning');l.style.zIndex=tt+2;book.classList.add('moving');
+  if(fwd)l.classList.add('done');else l.classList.remove('done');
+  setTimeout(function(){l.classList.remove('turning');l.style.zIndex=fwd?i:tt-i;book.classList.remove('moving');c=n;busy=false;update()},dur()+30);
+}
+function next(){go(c+1,true)}function prev(){go(c-1,true)}
+btnNext.onclick=next;arrowR.onclick=next;$('zoneR').onclick=next;
+btnPrev.onclick=prev;arrowL.onclick=prev;$('zoneL').onclick=prev;
+pgIn.onchange=function(){var n=parseInt(pgIn.value,10);if(isNaN(n)){pgIn.value=c+1;return}go(n-1,false);pgIn.value=c+1};
+pgIn.onkeydown=function(e){if(e.key==='Enter'){pgIn.onchange();pgIn.blur()}e.stopPropagation()};
+scrub.oninput=function(){go(parseInt(scrub.value,10)-1,false)};
+btnThumbs.onclick=function(){var open=!thumbs.classList.contains('open');thumbs.classList.toggle('open',open);btnThumbs.setAttribute('aria-pressed',open?'true':'false');if(open&&thumbs.children[c])thumbs.children[c].scrollIntoView({block:'nearest',inline:'center'})};
+thumbs.onclick=function(e){var b=e.target.closest('.th');if(!b)return;go(parseInt(b.getAttribute('data-i'),10),false)};
+/* Teclado */
+document.addEventListener('keydown',function(e){
+  if(e.target&&(e.target.tagName==='INPUT'))return;
+  var z=!$('zoom').hidden;
+  if(e.key==='Escape'){if(z){closeZoom()}else if(thumbs.classList.contains('open')){btnThumbs.onclick()}return}
+  if(z){if(e.key==='+'||e.key==='='){setZoom(zi+1)}if(e.key==='-'){setZoom(zi-1)}return}
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next()}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev()}
+  else if(e.key==='Home'){e.preventDefault();go(0,false)}
+  else if(e.key==='End'){e.preventDefault();go(tt-1,false)}
+});
+/* Gesto de deslizar */
+var sx=null,sy=null;
+stage.addEventListener('touchstart',function(e){if(e.target.closest('.thumbs'))return;sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+stage.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=null;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.2){dx<0?next():prev()}},{passive:true});
+/* Zoom */
+var ZL=[1,1.5,2,3],zi=1;
+function setZoom(i){zi=Math.max(0,Math.min(ZL.length-1,i));var zb=$('zbody'),img=$('zimg');var base=Math.min(zb.clientWidth,zb.clientHeight*AR);var w=Math.round(base*ZL[zi]),h=Math.round(w/AR);img.style.width=w+'px';img.style.height=h+'px';img.style.marginTop=Math.max(0,(zb.clientHeight-h)/2)+'px';$('zpct').textContent=Math.round(ZL[zi]*100)+'%';$('zOut').disabled=zi===0;$('zIn').disabled=zi===ZL.length-1}
+function openZoom(){if(!IM[c])return;var z=$('zoom');z.hidden=false;$('zimg').src=IM[c];$('zlbl').textContent='Página '+(c+1)+' de '+tt;setZoom(1);$('zClose').focus()}
+function closeZoom(){$('zoom').hidden=true;$('zimg').src='';btnZoom.focus()}
+btnZoom.onclick=openZoom;$('zClose').onclick=closeZoom;$('zIn').onclick=function(){setZoom(zi+1)};$('zOut').onclick=function(){setZoom(zi-1)};
+$('zimg').ondblclick=function(){setZoom(zi>=2?1:2)};
+/* Tela cheia */
+var fsOK=document.fullscreenEnabled||document.webkitFullscreenEnabled;
+if(!fsOK)btnFs.hidden=true;
+function inFs(){return !!(document.fullscreenElement||document.webkitFullscreenElement)}
+btnFs.onclick=function(){var d=document,el=d.documentElement;try{if(inFs()){(d.exitFullscreen||d.webkitExitFullscreen).call(d)}else{(el.requestFullscreen||el.webkitRequestFullscreen).call(el)}}catch(e){}};
+function updFs(){var f=inFs();$('icoFs').hidden=f;$('icoFsX').hidden=!f;btnFs.setAttribute('aria-label',f?'Sair da tela cheia':'Tela cheia');btnFs.title=f?'Sair da tela cheia':'Tela cheia'}
+document.addEventListener('fullscreenchange',updFs);document.addEventListener('webkitfullscreenchange',updFs);
+/* PDF original */
+btnPdf.onclick=function(){if(!PDF)return;var a=document.createElement('a');a.href=PDF;a.download=PDFN;document.body.appendChild(a);a.click();a.remove()};
+/* Início */
+build();
+var m=/p=(\d+)/.exec(location.hash||'');var start=m?parseInt(m[1],10)-1:0;
+if(start>0&&start<tt){book.classList.add('noanim');for(var k=0;k<tt;k++)setLeaf(k,k<start);c=start;requestAnimationFrame(function(){book.classList.remove('noanim')})}
+update();fit();
+if(window.ResizeObserver){new ResizeObserver(fit).observe(scene)}else{window.addEventListener('resize',fit)}
+window.addEventListener('resize',function(){if(!$('zoom').hidden)setZoom(zi)});
+})();
+<\/script>
+</body>
+</html></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-const TH={tce:{name:"TCE-MT Institucional",primary:"#1b4f72",accent:"#2e86c1",bg:"#f7f9fb",text:"#1a1a2e",pageBg:"#fff"},proMulher:{name:"TCE Pró-Mulher",primary:"#6b2c5e",accent:"#c44569",bg:"#fdf6f0",text:"#2d1b2e",pageBg:"#fff"},modern:{name:"Moderno",primary:"#1a1a2e",accent:"#2e86c1",bg:"#f2f3f4",text:"#1a1a2e",pageBg:"#fff"},dark:{name:"Escuro",primary:"#0d1b2a",accent:"#3a86c8",bg:"#0d1b2a",text:"#e0e0e0",pageBg:"#1b2838"},nature:{name:"Sustentavel",primary:"#1a6b4a",accent:"#27ae60",bg:"#eafaf1",text:"#1a2e0a",pageBg:"#fafdf5"}};
-const TP={cover:{n:"Capa",i:"●"},title:{n:"Titulo",i:"◇"},text:{n:"Texto",i:"≡"},imageText:{n:"Imagem+Texto",i:"▣"},twoColumns:{n:"Duas Colunas",i:"‖"},gallery:{n:"Galeria",i:"◈"},quote:{n:"Citacao",i:"❝"},pdfPage:{n:"PDF",i:"▤"},backCover:{n:"Contracapa",i:"◉"}};
-let S={view:"editor",theme:"tce",logo:null,sel:0,prev:0,flip:false,pdfM:false,shareM:false,pdfL:false,pdfP:{c:0,t:0},pdfMode:"replace",pdfData:null,pdfName:"documento.pdf",mobTab:"preview",ar:"3/4",
-pages:[{id:"p1",tpl:"cover",title:"Programacao Digital",sub:"Tribunal de Contas do Estado de Mato Grosso",body:"",img:null,quote:"",qa:""},{id:"p2",tpl:"text",title:"Apresentacao",sub:"",body:"Bem-vindo a programacao digital do TCE-MT.\n\nAqui voce encontra informacoes sobre eventos, capacitacoes e acoes institucionais do Tribunal.",img:null,quote:"",qa:""},{id:"p3",tpl:"quote",title:"",sub:"",body:"",img:null,quote:"Nao fiscalizamos apenas contas, cuidamos de pessoas.",qa:"TCE-MT"},{id:"p4",tpl:"backCover",title:"",sub:"Portas Abertas - Dialogo",body:"Tribunal de Contas do Estado de Mato Grosso\nwww.tce.mt.gov.br",img:null,quote:"",qa:""}]};
-const v=()=>TH[S.theme],uid=()=>'p'+Date.now()+Math.random().toString(36).slice(2,6),np=(tpl)=>({id:uid(),tpl,title:"",sub:"",body:"",img:null,quote:"",qa:""});
-function utv(){const th=v(),r=document.documentElement.style;r.setProperty('--primary',th.primary);r.setProperty('--accent',th.accent);r.setProperty('--bg',th.bg);r.setProperty('--text',th.text);r.setProperty('--page-bg',th.pageBg);document.body.style.background=th.bg}
-const footer='<div class="app-footer">Desenvolvido pela SECOM do TCE-MT.</div>';
 
-function rpc(p,pn,tot){const th=v();const bar=`<div style="height:3px;background:linear-gradient(90deg,${th.primary},${th.accent});width:100%;flex-shrink:0"></div>`;const foot=`<div style="padding:10px 22px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid ${th.primary}0a;font-size:10px;color:${th.primary}66;font-family:'JetBrains Mono',monospace;flex-shrink:0"><span></span><span>${pn} / ${tot}</span></div>`;const e=(s)=>(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');const b=`width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;background:${th.pageBg};color:${th.text};font-family:Inter,system-ui,sans-serif`;
-if(p.tpl==="pdfPage")return`<div style="${b};padding:0">${p.img?`<img src="${p.img}" style="width:100%;height:100%;object-fit:contain;background:#fff">`:`<div style="flex:1;display:flex;align-items:center;justify-content:center;color:#bbb">PDF</div>`}</div>`;
-if(p.tpl==="cover")return`<div style="${b};background:linear-gradient(160deg,${th.primary} 0%,${th.primary}e0 50%,${th.accent} 100%);color:#fff;justify-content:center;align-items:center;text-align:center;padding:clamp(24px,6vw,48px);position:relative"><div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 80%,rgba(255,255,255,.06),transparent 60%);pointer-events:none"></div>${S.logo?`<img src="${S.logo}" style="max-width:110px;max-height:70px;margin-bottom:20px;filter:brightness(0) invert(1);object-fit:contain">`:''}<div style="width:40px;height:2px;background:rgba(255,255,255,.35);margin:0 auto 16px"></div><h1 style="font-size:clamp(18px,4vw,28px);font-weight:700;line-height:1.3;margin:0 0 8px">${e(p.title)||'Titulo'}</h1>${p.sub?`<p style="font-size:clamp(11px,2vw,14px);opacity:.8;font-weight:300;max-width:85%;margin:0 auto;line-height:1.5">${e(p.sub)}</p>`:''}</div>`;
-if(p.tpl==="title")return`<div style="${b}">${bar}<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 32px;text-align:center"><div style="width:32px;height:2px;background:${th.accent};margin:0 auto 14px"></div><h2 style="font-size:clamp(17px,3.5vw,24px);font-weight:700;color:${th.primary};margin:0 0 8px">${e(p.title)||'Secao'}</h2>${p.sub?`<p style="font-size:13px;color:${th.text}80;max-width:85%;margin:0 auto;line-height:1.6">${e(p.sub)}</p>`:''}</div>${foot}</div>`;
-if(p.tpl==="quote")return`<div style="${b}">${bar}<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 32px"><div style="font-size:40px;color:${th.accent};line-height:1;margin-bottom:4px;font-family:'Fraunces',serif;opacity:.6">"</div><blockquote style="font-family:'Fraunces',serif;font-size:clamp(14px,2.5vw,19px);font-style:italic;color:${th.primary};line-height:1.55;margin:0 0 12px;padding-left:16px;border-left:2px solid ${th.accent}">${e(p.quote)||'...'}</blockquote>${p.qa?`<p style="font-size:12px;color:${th.accent};font-weight:600;padding-left:16px">— ${e(p.qa)}</p>`:''}</div>${foot}</div>`;
-if(p.tpl==="imageText")return`<div style="${b}">${bar}<div style="flex:1;display:flex;flex-direction:column;overflow:hidden">${p.img?`<div style="height:42%;overflow:hidden;flex-shrink:0"><img src="${p.img}" style="width:100%;height:100%;object-fit:cover"></div>`:''}<div style="flex:1;padding:16px 24px;overflow:auto">${p.title?`<h3 style="font-size:16px;font-weight:700;color:${th.primary};margin:0 0 6px">${e(p.title)}</h3>`:''}<p style="font-size:13px;line-height:1.7;color:${th.text}bb;margin:0">${e(p.body)||'...'}</p></div></div>${foot}</div>`;
-if(p.tpl==="twoColumns"){const pts=(p.body||'Col 1\n---\nCol 2').split('\n---\n');return`<div style="${b}">${bar}<div style="padding:16px 24px 0">${p.title?`<h3 style="font-size:16px;font-weight:700;color:${th.primary};margin:0 0 10px">${e(p.title)}</h3>`:''}</div><div style="flex:1;display:flex;gap:16px;padding:0 24px 16px;overflow:auto"><div style="flex:1;font-size:12px;line-height:1.7;color:${th.text}bb">${e(pts[0])}</div><div style="width:1px;background:${th.primary}0a;flex-shrink:0"></div><div style="flex:1;font-size:12px;line-height:1.7;color:${th.text}bb">${e(pts[1]||'')}</div></div>${foot}</div>`}
-if(p.tpl==="gallery")return`<div style="${b}">${bar}<div style="flex:1;display:flex;flex-direction:column;padding:16px 24px">${p.title?`<h3 style="font-size:16px;font-weight:700;color:${th.primary};margin:0 0 10px">${e(p.title)}</h3>`:''} ${p.img?`<div style="flex:1;border-radius:6px;overflow:hidden"><img src="${p.img}" style="width:100%;height:100%;object-fit:cover"></div>`:`<div style="flex:1;border-radius:6px;border:2px dashed ${th.primary}18;display:flex;align-items:center;justify-content:center;color:${th.primary}44;font-size:13px">Imagem</div>`}</div>${foot}</div>`;
-if(p.tpl==="backCover")return`<div style="${b};background:linear-gradient(160deg,${th.primary},${th.primary}ee);color:#fff;justify-content:center;align-items:center;text-align:center;padding:40px">${S.logo?`<img src="${S.logo}" style="max-width:90px;max-height:55px;margin-bottom:18px;filter:brightness(0) invert(1);object-fit:contain">`:''}<p style="font-size:13px;opacity:.75;max-width:80%;line-height:1.6">${e(p.body)||'Obrigado'}</p>${p.sub?`<p style="font-size:11px;opacity:.45;margin-top:10px">${e(p.sub)}</p>`:''}</div>`;
-return`<div style="${b}">${bar}<div style="flex:1;padding:20px 24px;overflow:auto">${p.title?`<h3 style="font-size:16px;font-weight:700;color:${th.primary};margin:0 0 8px">${e(p.title)}</h3>`:''}<p style="font-size:13px;line-height:1.75;color:${th.text}bb;margin:0">${e(p.body)||'...'}</p></div>${foot}</div>`}
+/* ===== Dados ===== */
+const TH={tce:{name:"TCE-MT Institucional",primary:"#1b4f72",accent:"#2e86c1",bg:"#f7f9fb",text:"#1a1a2e",pageBg:"#ffffff"},proMulher:{name:"TCE Pró-Mulher",primary:"#6b2c5e",accent:"#c44569",bg:"#fdf6f0",text:"#2d1b2e",pageBg:"#ffffff"},modern:{name:"Moderno",primary:"#1a1a2e",accent:"#2e86c1",bg:"#f2f3f4",text:"#1a1a2e",pageBg:"#ffffff"},dark:{name:"Escuro",primary:"#0d1b2a",accent:"#3a86c8",bg:"#0d1b2a",text:"#e0e0e0",pageBg:"#1b2838"},nature:{name:"Sustentável",primary:"#1a6b4a",accent:"#27ae60",bg:"#eafaf1",text:"#1a2e0a",pageBg:"#fafdf5"}};
+const TP={cover:{n:"Capa",i:"●"},title:{n:"Título de seção",i:"◇"},text:{n:"Texto",i:"≡"},imageText:{n:"Imagem e texto",i:"▣"},twoColumns:{n:"Duas colunas",i:"‖"},gallery:{n:"Galeria",i:"◈"},quote:{n:"Citação",i:"❝"},pdfPage:{n:"PDF",i:"▤"},backCover:{n:"Contracapa",i:"◉"}};
+const SVG=(d,extra='')=>`<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}>${d}</svg>`;
+const ICO={
+ book:SVG('<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>'),
+ upload:SVG('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>'),
+ share:SVG('<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13"/>'),
+ file:SVG('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><path d="M14 2v6h6"/>'),
+ left:SVG('<path d="m15 18-6-6 6-6"/>'),right:SVG('<path d="m9 18 6-6-6-6"/>'),
+ up:SVG('<path d="m18 15-6-6-6 6"/>'),down:SVG('<path d="m6 9 6 6 6-6"/>'),
+ x:SVG('<path d="M18 6 6 18M6 6l12 12"/>'),
+ image:SVG('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>'),
+ download:SVG('<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>')
+};
+let S={view:"editor",theme:"tce",logo:null,sel:0,pdfM:false,shareM:false,pdfL:false,pdfP:{c:0,t:0},pdfMode:"replace",pdfData:null,pdfName:"",pendingFile:null,mobTab:"page",ar:"3/4",pages:[],busy:false};
+const v=()=>TH[S.theme],uid=()=>'p'+Date.now()+Math.random().toString(36).slice(2,6),np=(tpl)=>({id:uid(),tpl,title:"",sub:"",body:"",img:null,th:null,quote:"",qa:""});
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const arNum=()=>{const m=/^([\d.]+)\s*\/\s*([\d.]+)$/.exec(S.ar||'');const n=m?parseFloat(m[1])/parseFloat(m[2]):0.75;return isFinite(n)&&n>0?n:0.75};
+const fmtKB=b=>b>1048576?(b/1048576).toFixed(1)+' MB':Math.round(b/1024)+' KB';
+const rm=id=>{const m=document.getElementById(id);if(m)m.remove()};
+const docName=()=>S.pdfName?S.pdfName.replace(/\.pdf$/i,''):(S.pages[0]?.title||'Flipbook');
+const docTitle=()=>docName()+' | TCE-MT';
+const slug=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,60)||'flipbook';
+const fileName=()=>'flipbook-'+slug(docName())+'.html';
 
-function bbook(){const pg=S.pages,cur=S.prev,tot=pg.length;let lv='';for(let i=pg.length-1;i>=0;i--){const fl=i<cur;const fr=rpc(pg[i],i+1,tot);const bk=`<div style="width:100%;height:100%;background:${v().pageBg}"></div>`;lv+=`<div class="leaf${fl?' flipped':''}" id="lf-${i}" style="z-index:${fl?i:tot-i}"><div class="lf lf-f">${fr}</div><div class="lf lf-b">${bk}</div></div>`}
-return`<div class="scene"><div class="book" id="bk" style="aspect-ratio:${S.ar}"><div class="bshadow" id="bsh"></div><div class="spine"></div>${lv}<div class="bclick l" onclick="pv()"></div><div class="bclick r" onclick="nx()"></div></div></div><div class="nav"><button class="navb" onclick="pv()" ${cur===0?'disabled':''}>&#8249;</button>${tot<=20?`<div class="dots">${pg.map((_,i)=>`<div class="dot${i===cur?' act':''}" onclick="gp(${i})"></div>`).join('')}</div>`:`<span class="nctr">${cur+1} / ${tot}</span>`}<button class="navb" onclick="nx()" ${cur===tot-1?'disabled':''}>&#8250;</button></div>${S.pdfData?'<button class="pdfbtn-prev" onclick="dlpdf()">Baixar PDF original</button>':''}<div class="nhint">Deslize ou use as setas para navegar</div>`}
+/* ===== Cores derivadas do tema (viewer) ===== */
+const hex2rgb=h=>{h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');const n=parseInt(h,16);return[n>>16&255,n>>8&255,n&255]};
+const rgb2hex=a=>'#'+a.map(x=>Math.round(Math.max(0,Math.min(255,x))).toString(16).padStart(2,'0')).join('');
+const mix=(a,b,t)=>{const A=hex2rgb(a),B=hex2rgb(b);return rgb2hex(A.map((x,i)=>x+(B[i]-x)*t))};
+const lum=h=>{const[r,g,b]=hex2rgb(h).map(x=>{x/=255;return x<=.03928?x/12.92:Math.pow((x+.055)/1.055,2.4)});return .2126*r+.7152*g+.0722*b};
 
-function topbarHTML(){const th=v();return`<div class="topbar"><div class="topbar-left"><span class="title">Flipbook Creator</span><span class="sep"></span><span class="badge">TCE-MT</span></div><div class="topbar-right"><button class="tb" onclick="opdf()">Importar PDF</button><button class="tb" onclick="osh()">Compartilhar</button><div class="tb-sep"></div><button class="tb${S.view==='editor'?' active':''}" onclick="sv('editor')">Editor</button><button class="tb${S.view==='preview'?' active':''}" onclick="sv('preview')">Preview</button></div></div>`}
+/* ===== Modelos de página (conteúdo das páginas de modelo) ===== */
+function rpc(p,pn,tot){const th=v();const bar=`<div style="height:3px;background:linear-gradient(90deg,${th.primary},${th.accent});width:100%;flex-shrink:0"></div>`;const foot=`<div style="padding:10px 22px;display:flex;justify-content:flex-end;align-items:center;border-top:1px solid ${th.primary}14;font-size:10px;color:${th.primary}99;flex-shrink:0">${pn} / ${tot}</div>`;const e=(s)=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');const b=`width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;background:${th.pageBg};color:${th.text};font-family:'Public Sans',system-ui,sans-serif;font-size:14px;line-height:1.45`;
+if(p.tpl==="pdfPage")return`<div style="${b};padding:0">${p.img?`<img src="${p.img}" alt="" style="width:100%;height:100%;object-fit:contain;background:#fff;display:block">`:`<div style="flex:1;display:flex;align-items:center;justify-content:center;color:#bbb">PDF</div>`}</div>`;
+if(p.tpl==="cover")return`<div style="${b};background:linear-gradient(160deg,${th.primary} 0%,${th.primary}e0 50%,${th.accent} 100%);color:#fff;justify-content:center;align-items:center;text-align:center;padding:48px 40px;position:relative">${S.logo?`<img src="${S.logo}" alt="" style="max-width:110px;max-height:70px;margin-bottom:20px;filter:brightness(0) invert(1);object-fit:contain">`:''}<div style="width:40px;height:2px;background:rgba(255,255,255,.35);margin:0 auto 16px"></div><h1 style="font-size:28px;font-weight:700;line-height:1.25;margin:0 0 10px">${e(p.title)||'Título'}</h1>${p.sub?`<p style="font-size:14px;opacity:.85;max-width:85%;margin:0 auto;line-height:1.5">${e(p.sub)}</p>`:''}</div>`;
+if(p.tpl==="title")return`<div style="${b}">${bar}<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 32px;text-align:center"><div style="width:32px;height:2px;background:${th.accent};margin:0 auto 14px"></div><h2 style="font-size:24px;font-weight:700;color:${th.primary};margin:0 0 8px;line-height:1.25">${e(p.title)||'Seção'}</h2>${p.sub?`<p style="font-size:13px;color:${th.text}99;max-width:85%;margin:0 auto;line-height:1.6">${e(p.sub)}</p>`:''}</div>${foot}</div>`;
+if(p.tpl==="quote")return`<div style="${b}">${bar}<div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:40px 32px"><div style="font-size:40px;color:${th.accent};line-height:1;margin-bottom:4px;font-family:Fraunces,Georgia,serif;opacity:.6">&#8220;</div><blockquote style="font-family:Fraunces,Georgia,serif;font-size:19px;font-style:italic;color:${th.primary};line-height:1.55;margin:0 0 12px;padding-left:16px;border-left:2px solid ${th.accent}">${e(p.quote)||'...'}</blockquote>${p.qa?`<p style="font-size:12px;color:${th.accent};font-weight:600;padding-left:16px">${e(p.qa)}</p>`:''}</div>${foot}</div>`;
+if(p.tpl==="imageText")return`<div style="${b}">${bar}<div style="flex:1;display:flex;flex-direction:column;overflow:hidden">${p.img?`<div style="height:42%;overflow:hidden;flex-shrink:0"><img src="${p.img}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>`:''}<div style="flex:1;padding:16px 24px;overflow:hidden">${p.title?`<h3 style="font-size:16px;font-weight:700;color:${th.primary};margin:0 0 6px">${e(p.title)}</h3>`:''}<p style="font-size:13px;line-height:1.7;color:${th.text}cc;margin:0">${e(p.body)||'...'}</p></div></div>${foot}</div>`;
+if(p.tpl==="twoColumns"){const pts=(p.body||'Coluna 1\n---\nColuna 2').split('\n---\n');return`<div style="${b}">${bar}<div style="padding:16px 24px 0">${p.title?`<h3 style="font-size:16px;font-weight:700;color:${th.primary};margin:0 0 10px">${e(p.title)}</h3>`:''}</div><div style="flex:1;display:flex;gap:16px;padding:0 24px 16px;overflow:hidden"><div style="flex:1;font-size:12px;line-height:1.7;color:${th.text}cc">${e(pts[0])}</div><div style="width:1px;background:${th.primary}14;flex-shrink:0"></div><div style="flex:1;font-size:12px;line-height:1.7;color:${th.text}cc">${e(pts[1]||'')}</div></div>${foot}</div>`}
+if(p.tpl==="gallery")return`<div style="${b}">${bar}<div style="flex:1;display:flex;flex-direction:column;padding:16px 24px;min-height:0">${p.title?`<h3 style="font-size:16px;font-weight:700;color:${th.primary};margin:0 0 10px">${e(p.title)}</h3>`:''}${p.img?`<div style="flex:1;border-radius:6px;overflow:hidden;min-height:0"><img src="${p.img}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>`:`<div style="flex:1;border-radius:6px;border:2px dashed ${th.primary}22;display:flex;align-items:center;justify-content:center;color:${th.primary}55;font-size:13px">Imagem</div>`}${p.body?`<p style="font-size:12px;color:${th.text}99;margin:8px 0 0">${e(p.body)}</p>`:''}</div>${foot}</div>`;
+if(p.tpl==="backCover")return`<div style="${b};background:linear-gradient(160deg,${th.primary},${th.primary}ee);color:#fff;justify-content:center;align-items:center;text-align:center;padding:40px">${S.logo?`<img src="${S.logo}" alt="" style="max-width:90px;max-height:55px;margin-bottom:18px;filter:brightness(0) invert(1);object-fit:contain">`:''}<p style="font-size:13px;opacity:.8;max-width:80%;line-height:1.6">${e(p.body)||'Obrigado'}</p>${p.sub?`<p style="font-size:11px;opacity:.5;margin-top:10px">${e(p.sub)}</p>`:''}</div>`;
+return`<div style="${b}">${bar}<div style="flex:1;padding:20px 24px;overflow:hidden">${p.title?`<h3 style="font-size:16px;font-weight:700;color:${th.primary};margin:0 0 8px">${e(p.title)}</h3>`:''}<p style="font-size:13px;line-height:1.75;color:${th.text}cc;margin:0">${e(p.body)||'...'}</p></div>${foot}</div>`}
 
-function render(){utv();const th=v(),pg=S.pages,sl=S.sel,app=document.getElementById('app');
-if(!S.pdfM){const m=document.getElementById('pdfM');if(m)m.remove()}
-if(!S.shareM){const m=document.getElementById('shM');if(m)m.remove()}
-if(S.view==="editor"){
-  const mt=S.mobTab;
-  app.innerHTML=topbarHTML()+`<div class="mob-tabs"><div class="mob-tab${mt==='pages'?' active':''}" onclick="smt('pages')">Paginas</div><div class="mob-tab${mt==='preview'?' active':''}" onclick="smt('preview')">Visualizar</div><div class="mob-tab${mt==='edit'?' active':''}" onclick="smt('edit')">Editar</div></div>
-  <div class="editor">
-    <div class="panel-l${mt==='pages'?' mob-active':''}"><div class="panel-header"><div class="lbl">Paginas &middot; ${pg.length}</div><select class="sel" onchange="ap(this.value);this.value=''"><option value="">+ Adicionar pagina</option>${Object.entries(TP).filter(([k])=>k!=='pdfPage').map(([k,t])=>`<option value="${k}">${t.i} ${t.n}</option>`).join('')}</select></div><div class="plist">${pg.map((p,i)=>`<div class="pi${i===sl?' sel':''}" onclick="sp(${i})">${p.tpl==='pdfPage'&&p.img?`<img class="th" src="${p.img}">`:`<span class="ic">${TP[p.tpl]?.i||'◇'}</span>`}<div class="inf"><div class="nm">${p.title||TP[p.tpl]?.n||'Pagina'}</div><div class="n">${i+1}</div></div><div class="acts"><button onclick="event.stopPropagation();mp(${i},-1)">&#8593;</button><button onclick="event.stopPropagation();mp(${i},1)">&#8595;</button><button class="dl" onclick="event.stopPropagation();rp(${i})">&#215;</button></div></div>`).join('')}</div></div>
-    <div class="center${mt==='preview'?' mob-active':''}"><div class="frame" style="aspect-ratio:${S.ar}">${rpc(pg[sl],sl+1,pg.length)}</div></div>
-    <div class="panel-r${mt==='edit'?' mob-active':''}"><div><div class="lbl">Tema</div><div class="tg">${Object.entries(TH).map(([k,t])=>`<div class="tgb${S.theme===k?' act':''}" style="background:linear-gradient(135deg,${t.primary} 50%,${t.accent} 50%);border-color:${S.theme===k?t.primary:'transparent'}" onclick="st('${k}')" title="${t.name}"></div>`).join('')}</div><div class="tn">${th.name}</div></div><div><div class="lbl">Logo</div><input type="file" id="li" accept="image/*" style="display:none" onchange="hl(event)"><button class="ub" onclick="document.getElementById('li').click()">${S.logo?'Trocar logo':'Upload logo'}</button>${S.logo?`<div style="display:flex;align-items:center;gap:8px;margin-top:8px"><img src="${S.logo}" style="height:24px;object-fit:contain"><button style="border:none;background:transparent;color:#e74c3c;cursor:pointer;font-size:12px;font-weight:500" onclick="S.logo=null;render()">Remover</button></div>`:''}</div><div class="hr"></div><div><div class="lbl">Editar Pag. ${sl+1}</div>${redi(pg[sl])}</div></div>
-  </div>`+footer;
-} else {
-  app.innerHTML=topbarHTML()+`<div class="preview">${bbook()}</div>`+footer;
-  const bk=document.getElementById('bk');
-  if(bk){let ts=null;bk.addEventListener('touchstart',e=>{ts=e.touches[0].clientX},{passive:true});bk.addEventListener('touchend',e=>{if(ts===null)return;const d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>50){d>0?nx():pv()}ts=null},{passive:true})}
-}
-if(S.pdfM)rpdfm();if(S.shareM)rshm()}
+/* ===== Interface do editor ===== */
+function topbar(){const has=S.pages.length>0;return`<header class="top"><div class="brand"><span class="mark">${ICO.book}</span><span class="name">Flipbook Creator</span><span class="org">SECOM TCE-MT</span></div><div class="seg" role="tablist" aria-label="Modo"><button role="tab" aria-selected="${S.view==='editor'}" class="${S.view==='editor'?'on':''}" onclick="sv('editor')">Editor</button><button role="tab" aria-selected="${S.view==='preview'}" class="${S.view==='preview'?'on':''}" onclick="sv('preview')" ${has?'':'disabled title="Importe um PDF primeiro"'}>Visualizar</button></div><div class="actions"><button class="btn" onclick="opdf()" title="Importar PDF">${ICO.upload}<span class="lbl">Importar PDF</span></button><button class="btn pri" onclick="osh()" title="Compartilhar" ${has?'':'disabled'}>${ICO.share}<span class="lbl">Compartilhar</span></button></div></header>`}
+function mtabs(){const t=S.mobTab;return`<div class="mtabs" role="tablist"><button class="${t==='pages'?'on':''}" onclick="smt('pages')">Páginas</button><button class="${t==='page'?'on':''}" onclick="smt('page')">Página</button><button class="${t==='edit'?'on':''}" onclick="smt('edit')">Editar</button></div>`}
+function pitem(p,i,on){const isPdf=p.tpl==='pdfPage';const th=isPdf?(p.th||p.img):null;return`<div class="pi${on?' sel':''}" onclick="sp(${i})" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();sp(${i})}" aria-current="${on?'true':'false'}"><div class="th">${th?`<img src="${th}" alt="">`:`<span>${TP[p.tpl]?.i||'◇'}</span>`}</div><div class="inf"><div class="nm">${esc(p.title)||TP[p.tpl]?.n||'Página'}</div><div class="sub">${isPdf?'Página do PDF':(TP[p.tpl]?.n||'')}</div></div><div class="acts"><button class="ib" title="Mover para cima" aria-label="Mover para cima" onclick="event.stopPropagation();mp(${i},-1)" ${i===0?'disabled':''}>${ICO.up}</button><button class="ib" title="Mover para baixo" aria-label="Mover para baixo" onclick="event.stopPropagation();mp(${i},1)" ${i===S.pages.length-1?'disabled':''}>${ICO.down}</button><button class="ib del" title="Remover página" aria-label="Remover página" onclick="event.stopPropagation();rp(${i})">${ICO.x}</button></div></div>`}
+function editor(){
+ const pg=S.pages,sl=S.sel,th=v(),mt=S.mobTab,ar=arNum(),has=pg.length>0,p=pg[sl];
+ const left=`<aside class="pane left${mt==='pages'?' on':''}"><div class="ph"><h2>Páginas <span class="cnt">${pg.length}</span></h2><select class="add" onchange="ap(this.value);this.value=''" aria-label="Adicionar página de modelo"><option value="">Adicionar página</option>${Object.entries(TP).filter(([k])=>k!=='pdfPage').map(([k,t])=>`<option value="${k}">${t.n}</option>`).join('')}</select></div><div class="plist" style="--ar:${ar}">${has?pg.map((q,i)=>pitem(q,i,i===sl)).join(''):'<p class="note" style="padding:8px 10px">Nenhuma página ainda. Importe um PDF ou adicione uma página de modelo.</p>'}</div></aside>`;
+ const center=`<main class="stage${mt==='page'?' on':''}" id="stage">${has?`<div class="fitbox" id="fit"><div class="page" id="pg">${rpc(p,sl+1,pg.length)}</div></div><div class="pager"><button class="ib" onclick="sp(${sl-1})" ${sl===0?'disabled':''} aria-label="Página anterior">${ICO.left}</button><span>Página ${sl+1} de ${pg.length}</span><button class="ib" onclick="sp(${sl+1})" ${sl===pg.length-1?'disabled':''} aria-label="Próxima página">${ICO.right}</button></div>`:`<div class="empty"><div class="ico">${ICO.file}</div><h3>Comece importando um PDF</h3><p>Cada página do PDF vira uma página do flipbook, com o efeito de virar a folha.</p><button class="btn pri lg" onclick="opdf()">${ICO.upload}<span>Selecionar PDF</span></button><p class="hint">ou arraste o arquivo para cá</p></div>`}</main>`;
+ const right=`<aside class="pane right${mt==='edit'?' on':''}"><section><h3>Tema</h3><div class="themes">${Object.entries(TH).map(([k,t])=>`<button class="sw${S.theme===k?' on':''}" style="background:linear-gradient(135deg,${t.primary} 50%,${t.accent} 50%)" onclick="st('${k}')" title="${t.name}" aria-label="${t.name}" aria-pressed="${S.theme===k}"></button>`).join('')}</div><p class="tn">${th.name}</p></section><section><h3>Logo</h3><input type="file" id="li" accept="image/*" hidden onchange="hl(event)">${S.logo?`<div class="logo-row"><img src="${S.logo}" alt="Logo"><button class="lnk" onclick="S.logo=null;render()">Remover</button></div><button class="ub" onclick="document.getElementById('li').click()">Trocar logo</button>`:`<button class="ub" onclick="document.getElementById('li').click()">${ICO.image}Enviar logo</button>`}<p class="note">Aparece na capa e na contracapa das páginas de modelo.</p></section>${has?`<section><h3>Página ${sl+1}</h3>${redi(p)}</section>`:''}</aside>`;
+ return`<div class="ed">${left}${center}${right}</div>`}
+function redi(p){
+ if(p.tpl==="pdfPage")return`<div class="chip">${ICO.file} Página importada do PDF</div><p class="note">O conteúdo vem da imagem da página. Para alterar, importe o PDF de novo.</p>`;
+ let h=`<div class="chip">${TP[p.tpl]?.n||''}</div>`;
+ const f=(label,inner)=>`<div class="fld"><label>${label}</label>${inner}</div>`;
+ if(p.tpl!=="backCover")h+=f('Título',`<input class="in" value="${esc(p.title)}" oninput="uf('title',this.value)">`);
+ if(["cover","title","backCover"].includes(p.tpl))h+=f('Subtítulo',`<input class="in" value="${esc(p.sub)}" oninput="uf('sub',this.value)">`);
+ if(["text","imageText","twoColumns","backCover","gallery"].includes(p.tpl))h+=f(p.tpl==="twoColumns"?"Texto (use --- para separar as colunas)":p.tpl==="gallery"?"Legenda":"Texto",`<textarea class="in" oninput="uf('body',this.value)">${esc(p.body)}</textarea>`);
+ if(p.tpl==="quote"){h+=f('Citação',`<textarea class="in" style="min-height:80px" oninput="uf('quote',this.value)">${esc(p.quote)}</textarea>`);h+=f('Autor',`<input class="in" value="${esc(p.qa)}" oninput="uf('qa',this.value)">`)}
+ if(["imageText","gallery"].includes(p.tpl))h+=f('Imagem',`<input type="file" id="pii" accept="image/*" hidden onchange="hpi(event)"><button class="ub" onclick="document.getElementById('pii').click()">${ICO.image}${p.img?'Trocar imagem':'Enviar imagem'}</button>${p.img?`<img class="imgprev" src="${p.img}" alt="" style="height:90px;object-fit:cover">`:''}`);
+ return h}
 
-function redi(p){if(p.tpl==="pdfPage")return`<div class="tb2"><span>▤</span> Pagina PDF</div>${p.img?`<img src="${p.img}" style="width:100%;border-radius:6px;margin-top:10px;border:1px solid var(--border)">`:''}<p style="font-size:12px;color:var(--text2);margin-top:8px">Importada como imagem.</p>`;
-let h=`<div class="tb2"><span>${TP[p.tpl]?.i||''}</span> ${TP[p.tpl]?.n||''}</div>`;
-if(p.tpl!=="backCover")h+=`<div style="margin-top:12px"><label class="fl">Titulo</label><input class="fi" value="${(p.title||'').replace(/"/g,'&quot;')}" oninput="uf('title',this.value)"></div>`;
-if(["cover","title","backCover"].includes(p.tpl))h+=`<div style="margin-top:12px"><label class="fl">Subtitulo</label><input class="fi" value="${(p.sub||'').replace(/"/g,'&quot;')}" oninput="uf('sub',this.value)"></div>`;
-if(["text","imageText","twoColumns","backCover","gallery"].includes(p.tpl))h+=`<div style="margin-top:12px"><label class="fl">${p.tpl==="twoColumns"?"Texto (--- separa)":p.tpl==="gallery"?"Legenda":"Corpo"}</label><textarea class="fi" oninput="uf('body',this.value)">${(p.body||'').replace(/</g,'&lt;')}</textarea></div>`;
-if(p.tpl==="quote"){h+=`<div style="margin-top:12px"><label class="fl">Citacao</label><textarea class="fi" style="min-height:80px" oninput="uf('quote',this.value)">${(p.quote||'').replace(/</g,'&lt;')}</textarea></div>`;h+=`<div style="margin-top:12px"><label class="fl">Autor</label><input class="fi" value="${(p.qa||'').replace(/"/g,'&quot;')}" oninput="uf('qa',this.value)"></div>`}
-if(["imageText","gallery"].includes(p.tpl))h+=`<div style="margin-top:12px"><label class="fl">Imagem</label><input type="file" id="pii" accept="image/*" style="display:none" onchange="hpi(event)"><button class="ub" onclick="document.getElementById('pii').click()">${p.img?'Trocar imagem':'Upload imagem'}</button>${p.img?`<img src="${p.img}" style="width:100%;height:80px;object-fit:cover;border-radius:6px;margin-top:8px">`:''}</div>`;
-return h}
+function render(){
+ const app=document.getElementById('app');
+ if(!S.pdfM)rm('pdfM');if(!S.shareM)rm('shM');
+ if(S.view==='editor'){app.innerHTML=topbar()+mtabs()+editor();fitPage();bindDrop()}
+ else{app.innerHTML=topbar()+`<div class="pvwrap"><iframe id="pvf" title="Visualização do flipbook" allowfullscreen></iframe><div class="pvload" id="pvload">Preparando a visualização...</div></div>`;
+  buildViewer().then(html=>{const f=document.getElementById('pvf');if(!f)return;f.onload=()=>{rm('pvload');try{f.contentWindow.focus()}catch(e){}};f.srcdoc=html})}
+ if(S.pdfM)rpdfm();if(S.shareM)rshm()}
+function fitPage(){const box=document.getElementById('fit'),pg=document.getElementById('pg');if(!box||!pg)return;const ar=arNum(),W=box.clientWidth,H=box.clientHeight;if(!W||!H)return;const w=Math.min(W,H*ar);pg.style.width=w+'px';pg.style.height=(w/ar)+'px'}
+window.addEventListener('resize',fitPage);
+function bindDrop(){const st=document.getElementById('stage');if(!st)return;let n=0;
+ st.addEventListener('dragenter',e=>{e.preventDefault();n++;st.classList.add('drag')});
+ st.addEventListener('dragover',e=>{e.preventDefault()});
+ st.addEventListener('dragleave',()=>{n--;if(n<=0){n=0;st.classList.remove('drag')}});
+ st.addEventListener('drop',e=>{e.preventDefault();n=0;st.classList.remove('drag');const f=e.dataTransfer.files?.[0];if(!f)return;if(!/pdf$/i.test(f.name)&&f.type!=='application/pdf'){alert('Envie um arquivo PDF.');return}S.pendingFile=f;S.pdfMode=S.pages.length?'append':'replace';S.pdfM=true;render()})}
 
-function sp(i){S.sel=i;render()}
-function sv(vw){if(vw==='preview')S.prev=S.sel;S.view=vw;render()}
+/* ===== Ações ===== */
+function sp(i){if(!S.pages.length)return;S.sel=Math.max(0,Math.min(S.pages.length-1,i));render()}
+function sv(vw){if(vw==='preview'&&!S.pages.length)return;S.view=vw;render()}
 function st(k){S.theme=k;render()}
 function smt(tab){S.mobTab=tab;render()}
-function ap(tpl){if(!tpl)return;S.pages.splice(S.sel+1,0,np(tpl));S.sel++;render()}
-function rp(i){if(S.pages.length<=1)return;S.pages.splice(i,1);S.sel=Math.min(S.sel,S.pages.length-1);render()}
+function ap(tpl){if(!tpl)return;const at=S.pages.length?S.sel+1:0;S.pages.splice(at,0,np(tpl));S.sel=at;S.mobTab='edit';render()}
+function rp(i){const p=S.pages[i];if(!p)return;if(!confirm(`Remover a página ${i+1}?`))return;S.pages.splice(i,1);S.sel=Math.max(0,Math.min(S.sel,S.pages.length-1));render()}
 function mp(i,d){const ni=i+d;if(ni<0||ni>=S.pages.length)return;[S.pages[i],S.pages[ni]]=[S.pages[ni],S.pages[i]];S.sel=ni;render()}
-function uf(f,val){S.pages[S.sel][f]=val;const fr=document.querySelector('.frame');if(fr)fr.innerHTML=rpc(S.pages[S.sel],S.sel+1,S.pages.length)}
+function uf(f,val){const p=S.pages[S.sel];if(!p)return;p[f]=val;const pg=document.getElementById('pg');if(pg)pg.innerHTML=rpc(p,S.sel+1,S.pages.length);const nm=document.querySelector('.pi.sel .nm');if(nm&&f==='title')nm.textContent=val||TP[p.tpl]?.n||'Página'}
 function hl(e){const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{S.logo=ev.target.result;render()};r.readAsDataURL(f)}
 function hpi(e){const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{S.pages[S.sel].img=ev.target.result;render()};r.readAsDataURL(f)}
+function dlpdf(){if(!S.pdfData)return;const a=document.createElement('a');a.href=S.pdfData;a.download=S.pdfName||'documento.pdf';a.click()}
 
-/* Navigation */
-function nx(){const cur=S.prev,tot=S.pages.length;if(cur>=tot-1||S.flip)return;S.flip=true;const l=document.getElementById('lf-'+cur);if(l){l.classList.add('flipping');l.style.zIndex=100;l.classList.add('flipped');const sh=document.getElementById('bsh');if(sh){sh.style.transform='scaleX(1.15)';sh.style.opacity='.9'}setTimeout(()=>{l.classList.remove('flipping');l.style.zIndex=cur;if(sh){sh.style.transform='';sh.style.opacity=''}S.prev=cur+1;S.flip=false;unav()},950)}}
-function pv(){const cur=S.prev;if(cur<=0||S.flip)return;S.flip=true;const li=cur-1;const l=document.getElementById('lf-'+li);if(l){l.classList.add('flipping');l.style.zIndex=100;l.classList.remove('flipped');const sh=document.getElementById('bsh');if(sh){sh.style.transform='scaleX(1.15)';sh.style.opacity='.9'}setTimeout(()=>{l.classList.remove('flipping');l.style.zIndex=S.pages.length-li;if(sh){sh.style.transform='';sh.style.opacity=''}S.prev=cur-1;S.flip=false;unav()},950)}}
-function gp(i){if(S.flip||i===S.prev)return;S.prev=i;render()}
-function unav(){document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('act',i===S.prev));const c=document.querySelector('.nctr');if(c)c.textContent=`${S.prev+1} / ${S.pages.length}`;const bs=document.querySelectorAll('.navb');if(bs[0])bs[0].disabled=S.prev===0;if(bs[1])bs[1].disabled=S.prev===S.pages.length-1}
-function dlpdf(){if(!S.pdfData)return;const a=document.createElement('a');a.href=S.pdfData;a.download=S.pdfName;a.click()}
-document.addEventListener('keydown',e=>{if(S.view!=='preview'||S.pdfM||S.shareM)return;if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();nx()}if(e.key==='ArrowLeft'){e.preventDefault();pv()}});
-
-/* PDF Modal */
-function opdf(){S.pdfM=true;S.pdfMode="replace";render()}
-function cpdf(){S.pdfM=false;S.pdfL=false;const m=document.getElementById('pdfM');if(m)m.remove();render()}
+/* ===== Importar PDF ===== */
+function opdf(){S.pdfM=true;S.pdfMode=S.pages.length?S.pdfMode:'replace';render()}
+function cpdf(){if(S.pdfL)return;S.pdfM=false;S.pendingFile=null;rm('pdfM');render()}
 function spm(m){S.pdfMode=m;render()}
-function rpdfm(){let ex=document.getElementById('pdfM');if(ex)ex.remove();const d=document.createElement('div');d.id='pdfM';d.className='mover';d.onclick=e=>{if(e.target===d)cpdf()};
-if(!S.pdfL){d.innerHTML=`<div class="modal"><button class="mx" onclick="cpdf()">&#215;</button><div style="text-align:center;margin-bottom:22px"><div class="mi">PDF</div><h3 class="mt">Importar PDF</h3><p class="ms">Cada pagina vira uma pagina do flipbook</p></div><div class="mbtns"><button class="mbtn ${S.pdfMode==='replace'?'act':''}" onclick="spm('replace')">Substituir tudo</button><button class="mbtn ${S.pdfMode==='append'?'act':''}" onclick="spm('append')">Adicionar ao final</button></div><input type="file" id="pfi" accept=".pdf,application/pdf" style="display:none" onchange="hpdf(event)"><button class="pdfub" onclick="document.getElementById('pfi').click()">Selecionar arquivo PDF</button></div>`}
-else{const pct=S.pdfP.t>0?Math.round((S.pdfP.c/S.pdfP.t)*100):0;d.innerHTML=`<div class="modal"><div style="text-align:center"><div class="mi">PDF</div><h3 class="mt" style="margin-bottom:16px">Importando...</h3><div class="pbar"><div class="pfill" style="width:${pct}%"></div></div><p style="font-size:13px;color:var(--primary);font-family:var(--font-mono)">Pagina ${S.pdfP.c} de ${S.pdfP.t}</p><div class="ldots"><div class="ldot" style="animation:pls 1.2s ease-in-out 0s infinite"></div><div class="ldot" style="animation:pls 1.2s ease-in-out .2s infinite"></div><div class="ldot" style="animation:pls 1.2s ease-in-out .4s infinite"></div></div></div></div>`}
-document.body.appendChild(d)}
-async function hpdf(event){const file=event.target.files?.[0];if(!file)return;S.pdfL=true;S.pdfP={c:0,t:0};S.pdfName=file.name||'documento.pdf';rpdfm();await new Promise(r=>setTimeout(r,100));
-try{const ab=await file.arrayBuffer();const u8=new Uint8Array(ab);let bin='';for(let i=0;i<u8.length;i++)bin+=String.fromCharCode(u8[i]);S.pdfData='data:application/pdf;base64,'+btoa(bin);
-const pdf=await pdfjsLib.getDocument({data:ab}).promise;S.pdfP.t=pdf.numPages;rpdfm();const pages=[];
-for(let i=1;i<=pdf.numPages;i++){S.pdfP.c=i;rpdfm();await new Promise(r=>setTimeout(r,50));const pg=await pdf.getPage(i);const b1=pg.getViewport({scale:1});let sc=Math.min(4,Math.max(2,2800/Math.max(b1.width,b1.height)));if(b1.width*b1.height*sc*sc>16e6)sc=Math.sqrt(16e6/(b1.width*b1.height));const vp=pg.getViewport({scale:sc});if(i===1){S.ar=vp.width+'/'+vp.height}const c=document.createElement('canvas');c.width=Math.round(vp.width);c.height=Math.round(vp.height);const cx=c.getContext('2d');cx.imageSmoothingEnabled=true;cx.imageSmoothingQuality='high';await pg.render({canvasContext:cx,viewport:vp}).promise;let du=c.toDataURL('image/webp',.9);if(!du.startsWith('data:image/webp'))du=c.toDataURL('image/jpeg',.92);pages.push({id:uid(),tpl:'pdfPage',title:'Pagina '+i,sub:'',body:'',img:du,quote:'',qa:''})}
-if(S.pdfMode==='replace'){S.pages=pages;S.sel=0}else{const pl=S.pages.length;S.pages=[...S.pages,...pages];S.sel=pl}}catch(err){alert('Erro: '+(err.message||err))}
-S.pdfL=false;S.pdfM=false;const m=document.getElementById('pdfM');if(m)m.remove();render()}
+function rpdfm(){rm('pdfM');const d=document.createElement('div');d.id='pdfM';d.className='ov';d.onclick=e=>{if(e.target===d)cpdf()};
+ if(!S.pdfL){const has=S.pages.length>0,pf=S.pendingFile;
+  d.innerHTML=`<div class="dlg" role="dialog" aria-modal="true" aria-labelledby="pdfT"><div class="dh"><div><h2 id="pdfT">Importar PDF</h2><p>Cada página do PDF vira uma página do flipbook.</p></div><button class="ib" onclick="cpdf()" aria-label="Fechar">${ICO.x}</button></div><div class="db">${has?`<div class="modes" role="radiogroup" aria-label="Como importar"><button class="${S.pdfMode==='replace'?'on':''}" role="radio" aria-checked="${S.pdfMode==='replace'}" onclick="spm('replace')">Substituir tudo</button><button class="${S.pdfMode==='append'?'on':''}" role="radio" aria-checked="${S.pdfMode==='append'}" onclick="spm('append')">Adicionar ao final</button></div>`:''}<input type="file" id="pfi" accept=".pdf,application/pdf" hidden onchange="hpdf(event)">${pf?`<div class="filerow">${ICO.file}<div class="fn">${esc(pf.name)}<div class="fs">${fmtKB(pf.size)}</div></div><button class="lnk" style="color:var(--ink2)" onclick="S.pendingFile=null;render()">Trocar</button></div><button class="btn pri lg" style="justify-content:center" onclick="importPdf(S.pendingFile)">Importar ${has&&S.pdfMode==='append'?'ao final':'agora'}</button>`:`<div class="drop" id="drop" onclick="document.getElementById('pfi').click()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">${ICO.upload}<strong>Selecionar arquivo PDF</strong><span class="sm">ou arraste o arquivo para cá</span></div>`}</div></div>`}
+ else{const pct=S.pdfP.t>0?Math.round((S.pdfP.c/S.pdfP.t)*100):0;
+  d.innerHTML=`<div class="dlg" role="dialog" aria-modal="true" aria-live="polite"><div class="dh"><div><h2>Importando o PDF</h2><p>${S.pdfP.t?`Página ${S.pdfP.c} de ${S.pdfP.t}`:'Lendo o arquivo...'}</p></div></div><div class="db"><div class="prog"><i style="width:${pct}%"></i></div><p class="note">As páginas são convertidas em imagens de alta resolução. Isso pode levar alguns segundos.</p></div></div>`}
+ document.body.appendChild(d);
+ const dz=d.querySelector('#drop');if(dz){dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag')});dz.addEventListener('dragleave',()=>dz.classList.remove('drag'));dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('drag');const f=e.dataTransfer.files?.[0];if(f)importPdf(f)})}}
+async function hpdf(event){const file=event.target.files?.[0];if(!file)return;importPdf(file)}
+async function importPdf(file){if(!file||S.pdfL)return;S.pdfL=true;S.pendingFile=null;S.pdfP={c:0,t:0};S.pdfName=file.name||'documento.pdf';rpdfm();await new Promise(r=>setTimeout(r,60));
+ try{const ab=await file.arrayBuffer();S.pdfData=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(new Blob([ab],{type:'application/pdf'}))});
+  const pdf=await pdfjsLib.getDocument({data:ab}).promise;S.pdfP.t=pdf.numPages;rpdfm();const pages=[];
+  for(let i=1;i<=pdf.numPages;i++){S.pdfP.c=i;rpdfm();await new Promise(r=>setTimeout(r,30));
+   const pg=await pdf.getPage(i);const b1=pg.getViewport({scale:1});let sc=Math.min(4,Math.max(2,2800/Math.max(b1.width,b1.height)));if(b1.width*b1.height*sc*sc>16e6)sc=Math.sqrt(16e6/(b1.width*b1.height));const vp=pg.getViewport({scale:sc});if(i===1){S.ar=vp.width+'/'+vp.height}
+   const c=document.createElement('canvas');c.width=Math.round(vp.width);c.height=Math.round(vp.height);const cx=c.getContext('2d');cx.imageSmoothingEnabled=true;cx.imageSmoothingQuality='high';await pg.render({canvasContext:cx,viewport:vp}).promise;
+   let du=c.toDataURL('image/webp',.9);if(!du.startsWith('data:image/webp'))du=c.toDataURL('image/jpeg',.92);
+   const tc=document.createElement('canvas');tc.width=200;tc.height=Math.round(200*c.height/c.width);const tx=tc.getContext('2d');tx.imageSmoothingQuality='high';tx.drawImage(c,0,0,tc.width,tc.height);const th=tc.toDataURL('image/jpeg',.8);
+   pages.push({id:uid(),tpl:'pdfPage',title:'Página '+i,sub:'',body:'',img:du,th,quote:'',qa:''})}
+  if(S.pdfMode==='replace'||!S.pages.length){S.pages=pages;S.sel=0}else{const pl=S.pages.length;S.pages=[...S.pages,...pages];S.sel=pl}
+  S.mobTab='page'}
+ catch(err){alert('Não foi possível importar o PDF: '+(err.message||err))}
+ S.pdfL=false;S.pdfM=false;rm('pdfM');render()}
 
-/* Share Modal */
-function osh(){S.shareM=true;render()}
-function csh(){S.shareM=false;const m=document.getElementById('shM');if(m)m.remove();render()}
-function rshm(){let ex=document.getElementById('shM');if(ex)ex.remove();const th=v();const ic='<!-- Flipbook TCE-MT -->\n<iframe src="SEU_LINK/flipbook.html"\n  width="100%" height="700" frameborder="0"\n  style="border:none;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.08);"\n  allowfullscreen></iframe>';
-const d=document.createElement('div');d.id='shM';d.className='mover';d.onclick=e=>{if(e.target===d)csh()};
-d.innerHTML=`<div class="modal"><button class="mx" onclick="csh()">&#215;</button><div style="text-align:center;margin-bottom:22px"><div class="mi">Compartilhar</div><h3 class="mt">Exportar Flipbook</h3><p class="ms">${S.pages.length} paginas &middot; ${th.name}</p></div><div style="margin-bottom:20px"><div class="lbl">1. Baixar HTML</div><button class="dlb" onclick="dlf()">Baixar flipbook.html</button><p style="font-size:12px;color:var(--text2);margin-top:8px">Responsivo, preenche a tela em qualquer dispositivo.</p></div><div style="margin-bottom:20px"><div class="lbl">2. Codigo iframe</div><div class="cblk"><pre style="margin:0">${ic.replace(/</g,'&lt;')}</pre><button class="cpb" onclick="cc(this,'${btoa(encodeURIComponent(ic))}')">Copiar</button></div></div><div class="instr"><p style="font-size:13px;font-weight:600;color:var(--primary);margin:0 0 8px">Como usar:</p><ol><li>Baixe o <strong>flipbook.html</strong></li><li>Hospede no servidor do TCE-MT</li><li>Cole o iframe no portal ou intranet</li></ol></div></div>`;
-document.body.appendChild(d)}
-function cc(btn,enc){const txt=decodeURIComponent(atob(enc));navigator.clipboard.writeText(txt).then(()=>{btn.textContent='Copiado!';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('ok')},2000)})}
+/* ===== Compartilhar / exportar ===== */
+function osh(){if(!S.pages.length)return;S.shareM=true;render()}
+function csh(){S.shareM=false;rm('shM');render()}
+function rshm(){rm('shM');const fn=fileName();const ic='<iframe src="SEU_LINK/'+fn+'"\n  width="100%" height="700"\n  style="border:0;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,.08)"\n  title="Flipbook" allowfullscreen loading="lazy"></iframe>';
+ const tplPages=S.pages.filter(p=>p.tpl!=='pdfPage').length;
+ const d=document.createElement('div');d.id='shM';d.className='ov';d.onclick=e=>{if(e.target===d)csh()};
+ d.innerHTML=`<div class="dlg" role="dialog" aria-modal="true" aria-labelledby="shT"><div class="dh"><div><h2 id="shT">Publicar flipbook</h2><p>${S.pages.length} página${S.pages.length>1?'s':''}, tema ${v().name}</p></div><button class="ib" onclick="csh()" aria-label="Fechar">${ICO.x}</button></div><div class="db">
+ <div class="step"><h4>1. Baixar o arquivo</h4><button class="btn pri lg" id="dlbtn" style="justify-content:center" onclick="dlf(this)">${ICO.download}<span>Baixar ${fn}</span></button><p class="note">Arquivo único, com as páginas e o PDF original embutidos. Funciona em qualquer navegador e se adapta ao celular.</p>${tplPages?`<div class="warn">${tplPages} página${tplPages>1?'s':''} de modelo ser${tplPages>1?'ão':'á'} convertida${tplPages>1?'s':''} em imagem na exportação.</div>`:''}</div>
+ <div class="step"><h4>2. Publicar no servidor</h4><ol class="steps"><li>Envie o <strong>${fn}</strong> para o servidor do TCE-MT.</li><li>Copie o endereço público do arquivo.</li></ol></div>
+ <div class="step"><h4>3. Embutir no portal ou na intranet</h4><div class="code"><pre style="margin:0;font:inherit">${esc(ic)}</pre><button class="cp" onclick="cc(this,'${btoa(encodeURIComponent(ic))}')">Copiar</button></div><p class="note">Troque <strong>SEU_LINK</strong> pelo endereço onde o arquivo ficou hospedado.</p></div>
+ </div></div>`;
+ document.body.appendChild(d)}
+function cc(btn,enc){const txt=decodeURIComponent(atob(enc));navigator.clipboard.writeText(txt).then(()=>{btn.textContent='Copiado';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('ok')},2000)})}
 
-/* Download */
-function dlf(){const th=v(),pg=S.pages,ia=JSON.stringify(pg.map(p=>p.img||''));
-const pdfBtn=S.pdfData?'<button class="pdfbtn" onclick="dlpdf()">Baixar PDF original</button>':'';
-const pdfScript=S.pdfData?'var pdfD="'+S.pdfData+'";var pdfN="'+S.pdfName.replace(/"/g,'\\"')+'";function dlpdf(){var a=document.createElement("a");a.href=pdfD;a.download=pdfN;a.click()}':'';
-const html='<!DOCTYPE html>\n<html lang="pt-BR"><head><meta charset="UTF-8">\n<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">\n<title>Flipbook TCE-MT</title>\n<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">\n<style>\n*{margin:0;padding:0;box-sizing:border-box}\nhtml,body{width:100%;height:100%;overflow:hidden}\nbody{font-family:Inter,system-ui,sans-serif;background:'+th.bg+';display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;height:100dvh}\n.w{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;width:100%;padding:12px;overflow:hidden}\n.sc{perspective:2400px;display:flex;justify-content:center;flex:1;align-items:center;width:100%}\n.bk{height:calc(100vh - 140px);height:calc(100dvh - 140px);aspect-ratio:'+S.ar+';max-width:94vw;position:relative;transform-style:preserve-3d}\n@media(max-width:600px){.bk{height:auto;width:94vw;aspect-ratio:'+S.ar+'}}\n@media(orientation:landscape)and(max-height:500px){.bk{height:calc(100vh - 110px);height:calc(100dvh - 110px);width:auto;max-width:94vw}}\n.sh{position:absolute;bottom:-12px;left:5%;right:5%;height:20px;background:radial-gradient(ellipse,rgba(17,45,78,.15) 0%,transparent 70%);border-radius:50%;filter:blur(5px);transition:all .7s}\n.sp{position:absolute;top:0;left:-4px;width:8px;height:100%;background:linear-gradient(90deg,rgba(17,45,78,.16),rgba(17,45,78,.03),rgba(17,45,78,.1));border-radius:3px 0 0 3px;z-index:50;pointer-events:none}\n.lf{position:absolute;top:0;left:0;width:100%;height:100%;transform-style:preserve-3d;transform-origin:left center;transition:transform .9s cubic-bezier(.4,0,.2,1);pointer-events:none}\n.lf.fg{z-index:100}.lf.fd{transform:rotateY(-180deg);z-index:0}\n.fc{position:absolute;top:0;left:0;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;border-radius:0 6px 6px 0}\n.ff{z-index:2;box-shadow:2px 0 8px rgba(0,0,0,.05),inset -3px 0 14px rgba(0,0,0,.02)}\n.fb{transform:rotateY(180deg);z-index:1;box-shadow:-2px 0 8px rgba(0,0,0,.05),inset 3px 0 14px rgba(0,0,0,.02)}\n.fb::after{content:\'\';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.04),transparent 18%);pointer-events:none}\n.ff::after{content:\'\';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(to left,rgba(0,0,0,.04),transparent);pointer-events:none;opacity:0;transition:opacity .4s}\n.lf.fg .ff::after{opacity:1}\n.fc img{width:100%;height:100%;object-fit:contain;background:#fff}\n.cl,.cr{position:absolute;top:0;width:45%;height:100%;z-index:200;cursor:pointer;-webkit-tap-highlight-color:transparent}.cl{left:0;cursor:w-resize}.cr{right:0;cursor:e-resize}\n.nv{display:flex;align-items:center;gap:clamp(10px,3vw,16px);padding:8px 0;flex-shrink:0}\n.nb{width:clamp(40px,10vw,46px);height:clamp(40px,10vw,46px);border-radius:50%;border:1px solid #d5d8dc;background:#fff;color:'+th.primary+';cursor:pointer;font-size:clamp(18px,5vw,22px);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.06);-webkit-tap-highlight-color:transparent;transition:all .2s}\n.nb:disabled{color:#d5d8dc;cursor:default;box-shadow:none}\n.ct{font-size:clamp(13px,3.5vw,15px);font-family:\'JetBrains Mono\',monospace;font-weight:500;color:'+th.primary+'}\n.ht{font-size:clamp(10px,2.5vw,12px);color:#bdc3c7;font-family:\'JetBrains Mono\',monospace;flex-shrink:0}\n.pdfbtn{margin-top:8px;padding:clamp(8px,2vw,10px) clamp(16px,4vw,24px);border-radius:8px;border:1px solid '+th.accent+';background:'+th.bg+';color:'+th.accent+';font-size:clamp(11px,2.5vw,13px);font-weight:600;cursor:pointer;font-family:Inter,sans-serif;display:flex;align-items:center;gap:8px;transition:all .2s;-webkit-tap-highlight-color:transparent;flex-shrink:0}\n.pdfbtn:hover{background:'+th.accent+';color:#fff}\n.ft{background:'+th.primary+';color:rgba(255,255,255,.55);padding:clamp(6px,1.5vw,8px) 16px;font-size:clamp(8px,2vw,10px);text-align:center;font-family:Inter,sans-serif;letter-spacing:.2px;width:100%;flex-shrink:0}\n</style></head><body>\n<div class="w">\n<div class="sc"><div class="bk" id="bk"><div class="sh" id="sh"></div><div class="sp"></div><div id="lv"></div><div class="cl" onclick="pv()"></div><div class="cr" onclick="nx()"></div></div></div>\n<div class="nv"><button class="nb" onclick="pv()" id="pb">&#8249;</button><span class="ct" id="ct"></span><button class="nb" onclick="nx()" id="n2">&#8250;</button></div>\n'+pdfBtn+'\n<p class="ht">Deslize ou use as setas</p>\n</div>\n<div class="ft">Desenvolvido pela SECOM do TCE-MT.</div>\n<script>\n'+pdfScript+'\nvar im='+ia+',c=0,tt=im.length,fl=false;\nfunction bd(){var l=document.getElementById(\'lv\');l.innerHTML=\'\';for(var i=tt-1;i>=0;i--){var d=document.createElement(\'div\');d.className=\'lf\'+(i<c?\' fd\':\'\');d.id=\'l-\'+i;d.style.zIndex=i<c?i:tt-i;var f=im[i]?\'<img src="\'+im[i]+\'">\':\'<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#bbb">P\'+(i+1)+\'</div>\';var b=\'<div style="height:100%;background:'+th.pageBg+'"></div>\';d.innerHTML=\'<div class="fc ff">\'+f+\'</div><div class="fc fb">\'+b+\'</div>\';l.appendChild(d)}up()}\nfunction up(){document.getElementById(\'ct\').textContent=(c+1)+\' / \'+tt;document.getElementById(\'pb\').disabled=c===0;document.getElementById(\'n2\').disabled=c===tt-1}\nfunction nx(){if(c>=tt-1||fl)return;fl=true;var l=document.getElementById(\'l-\'+c);l.classList.add(\'fg\');l.style.zIndex=100;l.classList.add(\'fd\');var s=document.getElementById(\'sh\');s.style.transform=\'scaleX(1.15)\';setTimeout(function(){l.classList.remove(\'fg\');l.style.zIndex=c;s.style.transform=\'\';c++;fl=false;up()},950)}\nfunction pv(){if(c<=0||fl)return;fl=true;var i=c-1;var l=document.getElementById(\'l-\'+i);l.classList.add(\'fg\');l.style.zIndex=100;l.classList.remove(\'fd\');var s=document.getElementById(\'sh\');s.style.transform=\'scaleX(1.15)\';setTimeout(function(){l.classList.remove(\'fg\');l.style.zIndex=tt-i;s.style.transform=\'\';c--;fl=false;up()},950)}\ndocument.addEventListener(\'keydown\',function(e){if(e.key===\'ArrowRight\'||e.key===\' \'){e.preventDefault();nx()}if(e.key===\'ArrowLeft\'){e.preventDefault();pv()}});\nvar ts=null;document.getElementById(\'bk\').addEventListener(\'touchstart\',function(e){ts=e.touches[0].clientX},{passive:true});\ndocument.getElementById(\'bk\').addEventListener(\'touchend\',function(e){if(ts===null)return;var d=ts-e.changedTouches[0].clientX;if(Math.abs(d)>50){d>0?nx():pv()}ts=null},{passive:true});\nbd();\n<\/script></body></html>';
-const blob=new Blob([html],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='flipbook-tce-mt.html';a.click();URL.revokeObjectURL(url)}
+/* Converte uma página de modelo em imagem (SVG foreignObject -> canvas) */
+async function raster(p,pn,tot){
+ try{const ar=arNum(),W=620,H=Math.round(W/ar),K=3;
+  const doc=new DOMParser().parseFromString(`<div style="width:${W}px;height:${H}px">${rpc(p,pn,tot)}</div>`,'text/html');
+  const xhtml=new XMLSerializer().serializeToString(doc.body.firstChild);
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><foreignObject width="100%" height="100%">${xhtml}</foreignObject></svg>`;
+  const img=new Image();await new Promise((res,rej)=>{img.onload=res;img.onerror=rej;img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)});
+  const c=document.createElement('canvas');c.width=W*K;c.height=H*K;const cx=c.getContext('2d');cx.fillStyle=v().pageBg;cx.fillRect(0,0,c.width,c.height);cx.drawImage(img,0,0,c.width,c.height);
+  let du=c.toDataURL('image/webp',.9);if(!du.startsWith('data:image/webp'))du=c.toDataURL('image/jpeg',.92);
+  const tc=document.createElement('canvas');tc.width=200;tc.height=Math.round(200*H/W);tc.getContext('2d').drawImage(c,0,0,tc.width,tc.height);
+  return{img:du,th:tc.toDataURL('image/jpeg',.8)}}
+ catch(e){console.warn('Falha ao converter página de modelo',e);return{img:'',th:''}}}
+async function buildViewer(){
+ const th=v(),tot=S.pages.length,ims=[],ths=[];
+ for(let i=0;i<tot;i++){const p=S.pages[i];if(p.tpl==='pdfPage'){ims.push(p.img||'');ths.push(p.th||p.img||'')}else{const r=await raster(p,i+1,tot);ims.push(r.img);ths.push(r.th)}}
+ const dark=lum(th.bg)<.4,surf=dark?mix(th.bg,'#ffffff',.08):'#ffffff';
+ const C={TITLE:esc(docTitle()),DOCNAME:esc(docName()),BG:mix(th.bg,th.text,dark?.03:.07),SURF:surf,INK:th.text,INK2:mix(th.text,th.bg,.45),LINE:mix(th.text,th.bg,dark?.8:.86),HOVER:mix(surf,th.text,.07),ACC:th.accent,PAGEBG:th.pageBg,AR:arNum().toFixed(5),IMAGES:JSON.stringify(ims),THUMBS:JSON.stringify(ths),PDF:JSON.stringify(S.pdfData||''),PDFNAME:JSON.stringify(S.pdfName||'documento.pdf')};
+ let t=document.getElementById('vtpl').textContent.replace(/<\\\/script>/g,'<\/script>');
+ return t.replace(/\{\{(\w+)\}\}/g,(m,k)=>k in C?C[k]:m)}
+async function dlf(btn){if(S.busy)return;S.busy=true;const lbl=btn?btn.querySelector('span'):null;const old=lbl?lbl.textContent:'';if(lbl)lbl.textContent='Preparando...';if(btn)btn.disabled=true;
+ try{const html=await buildViewer();const blob=new Blob([html],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=fileName();document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000)}
+ catch(e){alert('Não foi possível gerar o arquivo: '+(e.message||e))}
+ S.busy=false;if(lbl)lbl.textContent=old;if(btn)btn.disabled=false}
 
 render();
 </script>

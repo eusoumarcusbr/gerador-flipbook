@@ -10,6 +10,7 @@ Transforma um PDF em um flipbook HTML com efeito de virar página, em um único 
 
 ## Arquivos
 - `index.html`: a ferramenta inteira (editor + template do viewer exportado).
+- `GUIA.md`: guia de uso para a equipe (passo a passo, dicas, problemas comuns).
 - `CONTEXTO.md`: documentação técnica. Ler antes de alterar o código.
 - `criadorflipbook.js`: primeira versão (React), mantida como histórico. Não é usada.
 

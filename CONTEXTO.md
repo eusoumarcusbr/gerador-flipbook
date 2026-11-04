@@ -13,10 +13,12 @@ Fluxo de uso: abrir o Flipbook Creator > Importar PDF (ou arrastar o PDF para a 
 - `index_antigo.html`: versão de mar/2026, proporção fixa 3/4. Referência.
 - `criadorflipbook.js`: primeira versão, componente React (origem do projeto). Não é usado.
 - `_notes/dwsync.xml`: controle de sincronização do Dreamweaver.
+- `GUIA.md`: guia de uso para a equipe (não técnico).
+- `README.md`: apresentação do repositório no GitHub.
 - `CONTEXTO.md`: este arquivo.
 
 ## Publicação
-Arquivos enviados por FTP via Dreamweaver para `ftp.tce.mt.gov.br` (pasta remota: ver site configurado no Dreamweaver). Cada flipbook exportado é um arquivo HTML separado, hospedado no mesmo servidor.
+Código versionado em github.com/eusoumarcusbr/gerador-flipbook (branch main). Arquivos enviados por FTP via Dreamweaver para `ftp.tce.mt.gov.br` (pasta remota: ver site configurado no Dreamweaver). Cada flipbook exportado é um arquivo HTML separado, hospedado no mesmo servidor.
 
 Importante: mudanças no `index.html` só valem para flipbooks gerados depois. Flipbooks já publicados precisam ser reimportados e baixados de novo.
 

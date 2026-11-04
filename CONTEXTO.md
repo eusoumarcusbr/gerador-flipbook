@@ -13,7 +13,8 @@ Fluxo de uso: abrir o Flipbook Creator > Importar PDF (ou arrastar o PDF para a 
 - `index_antigo.html`: versão de mar/2026, proporção fixa 3/4. Referência.
 - `criadorflipbook.js`: primeira versão, componente React (origem do projeto). Não é usado.
 - `_notes/dwsync.xml`: controle de sincronização do Dreamweaver.
-- `GUIA.md`: guia de uso para a equipe (não técnico).
+- `guia.html`: guia de uso para a equipe em página web (autocontida, com capturas de tela embutidas). Hospedar junto com a ferramenta.
+- `GUIA.md`: o mesmo guia em texto.
 - `README.md`: apresentação do repositório no GitHub.
 - `CONTEXTO.md`: este arquivo.
 

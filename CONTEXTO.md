@@ -38,6 +38,7 @@ Importante: mudanças no `index.html` só valem para flipbooks gerados depois. F
 - Funções principais: `render()` monta a tela; `editor()` / `topbar()` / `mtabs()` / `pitem()` / `redi()` montam o editor; `importPdf(file)` importa e renderiza o PDF; `buildViewer()` gera o HTML final a partir do template; `raster()` converte páginas de modelo em imagem (SVG foreignObject > canvas); `dlf()` baixa o arquivo; `rpdfm()` e `rshm()` são os modais.
 - Prévia ("Visualizar") = o próprio HTML exportado dentro de um iframe (`srcdoc`). O que aparece na prévia é exatamente o que será publicado.
 - Começa vazio (sem páginas de exemplo). Sem persistência: recarregar a página perde tudo.
+- Botão "Guia" no topo abre `guia.html` (link relativo, mesma pasta) em nova aba.
 
 ## Qualidade das páginas
 Onde: `importPdf()`.

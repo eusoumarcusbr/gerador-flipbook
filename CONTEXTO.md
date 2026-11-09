@@ -55,6 +55,7 @@ Para ajustar: mudar o `2800` (resolução) ou o `.9` (compressão). Tudo vai emb
 - Barra de progresso arrastável acima dos controles. Setas laterais no desktop. Deslizar no celular.
 - Teclado: setas, espaço, PageUp/PageDown, Home/End, Esc. `#p=N` na URL abre direto na página N.
 - Acessibilidade: aria-labels, foco visível, leitor de tela recebe "Página X de Y", `prefers-reduced-motion` desliga a animação.
+- Meta tags Open Graph fixas no `<head>` (logo após o charset): og:title "TCE-MT", og:image logotce.jpg em uploads/flipbook/promulher/imagens/, og:description "Arquivo compartilhado pelo Tribunal de Contas de Mato Grosso." (pedido de 09/11/2026).
 - Rodapé: "Desenvolvido pela SECOM do TCE-MT."
 - Iframe sugerido no modal Compartilhar, com o nome real do arquivo.
 
@@ -62,6 +63,7 @@ Para ajustar: mudar o `2800` (resolução) ou o `.9` (compressão). Tudo vai emb
 - mar/2026: versão inicial (React, depois convertida para HTML único).
 - abr/2026: proporção da página passa a seguir o PDF em vez de 3/4 fixo.
 - 04/11/2026 (manhã): resolução e compressão das páginas aumentadas.
+- 09/11/2026: meta tags Open Graph no HTML exportado.
 - 04/11/2026 (tarde): redesign completo do editor e do viewer; prévia passa a usar o viewer real; páginas de modelo viram imagem na exportação; miniaturas, zoom, tela cheia, barra de progresso. Testado com Playwright (Chromium) em 375, 768, 1440 e 1000x700.
 
 ## Limitações conhecidas
